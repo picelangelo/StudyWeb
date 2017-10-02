@@ -10,8 +10,7 @@ public class Frage extends Model<Frage, Long> {
     private boolean isMultipleChoice;
     private Beantwortet beantwortet;
 
-    public Frage(Long primaryKey, Long version, String frage, List<Antwort> antworten, boolean isMultipleChoice, Beantwortet beantwortet) {
-        super(primaryKey, version);
+    public Frage(String frage, List<Antwort> antworten, boolean isMultipleChoice, Beantwortet beantwortet) {
         Frage = Ensurer.ensureNotBlank(frage);
         Ensurer.ensureNotNull(antworten);
         antworten.forEach(Ensurer::ensureNotNull);
@@ -20,8 +19,14 @@ public class Frage extends Model<Frage, Long> {
         this.beantwortet = Ensurer.ensureNotNull(beantwortet);
     }
 
-    public Frage(Long primaryKey, Long version) {
+    public Frage(Long primaryKey, Long version, String frage, List<Antwort> antworten, boolean isMultipleChoice, Beantwortet beantwortet) {
         super(primaryKey, version);
+        Frage = Ensurer.ensureNotBlank(frage);
+        Ensurer.ensureNotNull(antworten);
+        antworten.forEach(Ensurer::ensureNotNull);
+        this.antworten = antworten;
+        this.isMultipleChoice = isMultipleChoice;
+        this.beantwortet = Ensurer.ensureNotNull(beantwortet);
     }
 
     public String getFrage() {

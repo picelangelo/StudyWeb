@@ -20,4 +20,11 @@ public final class Ensurer {
         return object;
     }
 
+    public static int ensureNotNegative(int number) {
+        if (number < 0)
+            throw new IllegalArgumentException("Argument must not be smaller than null");
+
+        return number;
+    }
+
 }
