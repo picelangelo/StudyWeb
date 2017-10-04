@@ -32,4 +32,8 @@ public abstract class Model<DOMAIN_TYPE extends Model, ID extends Number> {
         this.version = Ensurer.ensureNotNull(version);
     }
 
+    public boolean isNew() {
+        return primaryKey == null;
+    }
+
 }
