@@ -10,6 +10,10 @@ public class Frage extends Model<Frage, Long> {
     private boolean isMultipleChoice;
     private Beantwortet beantwortet;
 
+    public Frage() {
+
+    }
+
     public Frage(String frage, List<Antwort> antworten, boolean isMultipleChoice, Beantwortet beantwortet) {
         Frage = Ensurer.ensureNotBlank(frage);
         Ensurer.ensureNotNull(antworten);

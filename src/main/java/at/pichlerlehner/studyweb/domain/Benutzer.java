@@ -12,6 +12,10 @@ public class Benutzer extends Model<Benutzer, Long> {
     private List<Fragebogen> frageboegenErstellt;
     private List<Berechtigung> berechtigungsList;
 
+    public Benutzer() {
+
+    }
+
     public Benutzer(String email, String password, String vorname, String nachname, List<Fragebogen> frageboegenErstellt, List<Berechtigung> berechtigungsList) {
         this.email = Ensurer.ensureNotBlank(email);
         this.password = Ensurer.ensureNotBlank(password);

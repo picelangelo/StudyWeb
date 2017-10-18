@@ -6,6 +6,9 @@ public class Antwort extends Model<Antwort, Long> {
     private String antwort;
     private boolean isCorrect;
 
+    public Antwort() {
+
+    }
 
     public Antwort(String antwort, boolean isCorrect) {
         this.antwort = Ensurer.ensureNotBlank(antwort);

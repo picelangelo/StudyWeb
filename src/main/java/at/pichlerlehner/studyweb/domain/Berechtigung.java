@@ -7,6 +7,10 @@ public class Berechtigung extends Model<Berechtigung, Long> {
     private Fragebogen fragebogen;
     private boolean darfBearbeiten;
 
+    public Berechtigung() {
+
+    }
+
     public Berechtigung(Fragebogen fragebogen, boolean darfBearbeiten) {
         this.fragebogen = Ensurer.ensureNotNull(fragebogen);
         this.darfBearbeiten = darfBearbeiten;

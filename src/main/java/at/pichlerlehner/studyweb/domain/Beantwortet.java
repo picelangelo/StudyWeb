@@ -7,6 +7,10 @@ public class Beantwortet extends Model<Beantwortet, Long> {
     private int anzahlRichtig;
     private int anzahlFalsch;
 
+    public Beantwortet() {
+
+    }
+
     public Beantwortet(Benutzer benutzer, int anzahlRichtig, int anzahlFalsch) {
         this.benutzer = Ensurer.ensureNotNull(benutzer);
         this.anzahlRichtig = Ensurer.ensureNotNegative(anzahlRichtig);
