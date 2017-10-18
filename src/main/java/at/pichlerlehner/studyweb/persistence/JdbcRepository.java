@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface JdbcRepository<DOMAIN extends Model<DOMAIN, PRIMARY_KEY>, PRIMARY_KEY extends Number> {
-    int save(Connection con, DOMAIN entity) throws PersistenceException;
+    long save(Connection con, DOMAIN entity) throws PersistenceException;
 
     int delete(Connection con, PRIMARY_KEY id) throws PersistenceException;
 

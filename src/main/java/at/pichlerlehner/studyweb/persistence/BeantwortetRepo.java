@@ -4,16 +4,23 @@ import at.pichlerlehner.studyweb.domain.Beantwortet;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.List;
 
 public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
 
     @Override
-    protected int insert(Connection con, Beantwortet entity) throws PersistenceException {
+    protected List<Beantwortet> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
+        return null;
+    }
+
+    @Override
+    protected long insert(Connection con, Beantwortet entity) throws PersistenceException {
         return 0;
     }
 
     @Override
-    protected int update(Connection con, Beantwortet entity) throws PersistenceException {
+    protected long update(Connection con, Beantwortet entity) throws PersistenceException {
         return 0;
     }
 
