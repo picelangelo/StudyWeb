@@ -6,14 +6,13 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link rel="stylesheet" href="css/index.css">
     <link rel='stylesheet' href='css/Varela+Round.css'>
+
+<body>
     <script href="JavaScript/index.js"></script>
     <script href="JavaScript/jquery.validate.min.js"></script>
-<body>
     <div class="container">
-        <br/>
-        <h2>Welcome to StudyWeb!</h2>
         <div class="text-center" style="padding:50px 0">
-            <div class="logo">login</div>
+            <div class="logo">Welcome to StudyWeb!</div>
             <div class="login-form-1">
                 <form id="login-form" class="text-left">
                     <div class="login-form-main-message"></div>
