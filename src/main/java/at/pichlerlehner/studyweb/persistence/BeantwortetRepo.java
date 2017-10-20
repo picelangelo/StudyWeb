@@ -27,16 +27,25 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s,%s ) VALUES(?,?,?,?,?)", table_name, vers, ba_frage,
                 ba_user, ba_richtig, ba_falsch);
         Long version = entity.getVersion();
-        Long frage = entity.getFrage().getPrimaryKey();
-        Long user = entity.getBenutzer().getPrimaryKey();
+        Frage frage = entity.getFrage();
+        Benutzer user = entity.getBenutzer();
         int anzCorr = entity.getAnzahlRichtig();
         int anzWrong = entity.getAnzahlFalsch();
-
+        FrageRepo frageRepo = new FrageRepo();
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, version);
-            preparedStatement.setLong(2, frage);
-            preparedStatement.setLong(3, user);
+            if (frage.isNew()) {
+                long pk = frageRepo.insert(con, frage);
+                frage.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(2, frage.getPrimaryKey());
+            if (user.isNew()) {
+                long pk = benutzerRepo.insert(con, user);
+                user.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(3, user.getPrimaryKey());
             preparedStatement.setInt(4, anzCorr);
             preparedStatement.setInt(5, anzWrong);
 
@@ -75,7 +84,8 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
     protected long update(Connection con, Beantwortet entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name,vers, ba_frage,
                 ba_user, ba_richtig, ba_falsch, primary_key);
-
+        FrageRepo frageRepo = new FrageRepo();
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
@@ -86,7 +96,13 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            if (!frageRepo.findById(con, entity.getFrage().getPrimaryKey()).isPresent()) {
+                frageRepo.insert(con, entity.getFrage());
+            }
             preparedStatement.setLong(2, entity.getFrage().getPrimaryKey());
+            if (!benutzerRepo.findById(con, entity.getBenutzer().getPrimaryKey()).isPresent()) {
+                benutzerRepo.insert(con, entity.getBenutzer());
+            }
             preparedStatement.setLong(3, entity.getBenutzer().getPrimaryKey());
             preparedStatement.setInt(4, entity.getAnzahlRichtig());
             preparedStatement.setInt(5, entity.getAnzahlFalsch());

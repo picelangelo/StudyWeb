@@ -24,14 +24,18 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
         String query = String.format("INSERT INTO %s (%s,%s,%s,%s) VALUES (?,?,?,?)", table_name, vers, f_fragebogen, f_frage, f_mulChoice);
 
         long version = entity.getVersion();
-        long fragebogen = entity.getFragebogen().getPrimaryKey();
+        Fragebogen fragebogen = entity.getFragebogen();
         String frage = entity.getFrage();
         boolean mulChoice = entity.isMultipleChoice();
-
+        FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, version);
-            preparedStatement.setLong(2, fragebogen);
+            if (fragebogen.isNew()) {
+                long pk = fragebogenRepo.insert(con, fragebogen);
+                fragebogen.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(2, fragebogen.getPrimaryKey());
             preparedStatement.setString(3, frage);
             preparedStatement.setBoolean(4, mulChoice);
 
@@ -70,7 +74,7 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
     @Override
     protected long update(Connection con, Frage entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers,f_fragebogen, f_frage, f_mulChoice, primary_key);
-
+        FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
@@ -82,6 +86,9 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            if (!fragebogenRepo.findById(con, entity.getFragebogen().getPrimaryKey()).isPresent()) {
+                fragebogenRepo.insert(con, entity.getFragebogen());
+            }
             preparedStatement.setLong(2, entity.getFragebogen().getPrimaryKey());
             preparedStatement.setString(3, entity.getFrage());
             preparedStatement.setBoolean(4, entity.isMultipleChoice());

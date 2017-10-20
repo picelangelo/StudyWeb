@@ -18,12 +18,16 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     protected long insert(Connection con, Fragebogen entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", table_name, vers, fb_creator);
         Long version = entity.getVersion();
-        Long creator = entity.getErsteller().getPrimaryKey();
-
+        Benutzer creator = entity.getErsteller();
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, version);
-            preparedStatement.setLong(2, creator);
+            if (creator.isNew()) {
+                long pk = benutzerRepo.insert(con, creator);
+                creator.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(2, creator.getPrimaryKey());
             int affectedRow = preparedStatement.executeUpdate();
             if (affectedRow == 0) {
                 String message = "creating Fragebogen failed, no rows affected.";
@@ -58,6 +62,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     @Override
     protected long update(Connection con, Fragebogen entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?, %s=? where %s=?", table_name, vers, fb_creator, primary_key);
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             //Optimistic Locking
             long version_db = getVersion(con, entity.getPrimaryKey());
@@ -69,6 +74,9 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            if (!benutzerRepo.findById(con, entity.getErsteller().getPrimaryKey()).isPresent()) {
+                benutzerRepo.insert(con, entity.getErsteller());
+            }
             preparedStatement.setLong(2, entity.getErsteller().getPrimaryKey());
             preparedStatement.setLong(3, entity.getPrimaryKey());
             int affectedRows = preparedStatement.executeUpdate();

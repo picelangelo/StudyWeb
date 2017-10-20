@@ -70,7 +70,11 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
             ResultSet resultSet = preparedStatement.executeQuery();
             result = parseResultSet(con, resultSet);
-            return Optional.ofNullable(result.get(0));
+            try {
+                return Optional.ofNullable(result.get(0));
+            } catch (IndexOutOfBoundsException e) {
+                return Optional.empty();
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
