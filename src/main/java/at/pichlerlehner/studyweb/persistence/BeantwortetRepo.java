@@ -73,7 +73,7 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
 
     @Override
     protected long update(Connection con, Beantwortet entity) throws PersistenceException {
-        String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=?,%s=? WHERE %s=%s", table_name,vers, ba_frage,
+        String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name,vers, ba_frage,
                 ba_user, ba_richtig, ba_falsch, primary_key);
 
         try {

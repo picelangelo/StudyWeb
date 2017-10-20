@@ -57,7 +57,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
 
     @Override
     protected long update(Connection con, Fragebogen entity) throws PersistenceException {
-        String query = String.format("UPDATE %s SET %s=?, %s = ?", table_name, vers, fb_creator);
+        String query = String.format("UPDATE %s SET %s=?, %s=? where %s=?", table_name, vers, fb_creator, primary_key);
         try {
             //Optimistic Locking
             long version_db = getVersion(con, entity.getPrimaryKey());
@@ -70,7 +70,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
             preparedStatement.setLong(2, entity.getErsteller().getPrimaryKey());
-
+            preparedStatement.setLong(3, entity.getPrimaryKey());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new PersistenceException("updating failed, no rows affected");
