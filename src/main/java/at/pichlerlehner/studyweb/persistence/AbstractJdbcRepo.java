@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> implements JdbcRepository<DOMAIN, Long>{
 
+
     //Namen
     protected String primary_key = "Id";
     protected String vers = "Version";
@@ -78,28 +79,23 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     }
 
     public int delete(Connection con, Long id) throws PersistenceException {
-        PreparedStatement deleteByIdStmt = getDeleteByIdStmt();
+        PreparedStatement preparedStatement = null;
         try {
 
-            if (deleteByIdStmt == null) {
+            String deleteByIdSQL = String.format("DELETE FROM %s WHERE %s = ?",
+                    getTableName(), getPrimaryKeyColumnName());
 
-                String deleteByIdSQL = String.format("DELETE FROM %s WHERE %s = ?",
-                        getTableName(), getPrimaryKeyColumnName());
+            logger.debug("crafted preparedStatement: '{}'", deleteByIdSQL);
 
-                logger.debug("crafted deleteByIdStmt: '{}'", deleteByIdSQL);
+            preparedStatement = con.prepareStatement(deleteByIdSQL);
 
-                deleteByIdStmt = con.prepareStatement(deleteByIdSQL);
-                storeDeleteByIdStmt(deleteByIdStmt);
-            }
-
-            // null check is obsolete now
             if (id == null) {
-                deleteByIdStmt.setNull(1, Types.BIGINT);
+                preparedStatement.setNull(1, Types.BIGINT);
             } else {
-                deleteByIdStmt.setLong(1, id);
+                preparedStatement.setLong(1, id);
             }
 
-            return deleteByIdStmt.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException sqlEx) {
             throw PersistenceException.forSqlException(sqlEx);
         }
@@ -149,10 +145,6 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     protected abstract long insert(Connection con, DOMAIN entity) throws PersistenceException;
 
     protected abstract long update(Connection con, DOMAIN entity) throws PersistenceException;
-
-    protected abstract void storeDeleteByIdStmt(PreparedStatement deleteByIdStmt);
-
-    protected abstract PreparedStatement getDeleteByIdStmt();
 
     protected abstract String getTableName();
 

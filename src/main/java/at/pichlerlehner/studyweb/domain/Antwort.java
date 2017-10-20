@@ -5,20 +5,22 @@ import at.pichlerlehner.studyweb.foundation.Ensurer;
 public class Antwort extends Model<Antwort, Long> {
     private String antwort;
     private boolean isCorrect;
+    private Frage frage;
 
     public Antwort() {
-
     }
 
-    public Antwort(String antwort, boolean isCorrect) {
+    public Antwort(String antwort, boolean isCorrect, Frage frage) {
         this.antwort = Ensurer.ensureNotBlank(antwort);
         this.isCorrect = isCorrect;
+        this.frage = Ensurer.ensureNotNull(frage);
     }
 
-    public Antwort(Long primaryKey, Long version, String antwort, boolean isCorrect) {
+    public Antwort(Long primaryKey, Long version, String antwort, boolean isCorrect, Frage frage) {
         super(primaryKey, version);
         this.antwort = Ensurer.ensureNotBlank(antwort);
         this.isCorrect = isCorrect;
+        this.frage = Ensurer.ensureNotNull(frage);
     }
 
     public String getAntwort() {
@@ -35,5 +37,13 @@ public class Antwort extends Model<Antwort, Long> {
 
     public void setCorrect(boolean correct) {
         isCorrect = correct;
+    }
+
+    public Frage getFrage() {
+        return this.frage;
+    }
+
+    public void setFrage(Frage frage) {
+        this.frage = Ensurer.ensureNotNull(frage);
     }
 }

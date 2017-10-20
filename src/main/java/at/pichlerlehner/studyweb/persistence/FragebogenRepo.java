@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
 
-    PreparedStatement deleteByIdStatement;
-
     //Namen
     private String table_name = "Fragebogen";
     private String fb_creator = "User_Id";
@@ -65,7 +63,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
                 logger.error("Version conflict");
-                throw new PersistenceException("user has recently been updated");
+                throw new PersistenceException("Fragebogen has recently been updated");
             } else {
                 entity.setVersion(entity.getVersion() + 1);
             }
@@ -88,10 +86,6 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
         }
     }
 
-    @Override
-    protected void storeDeleteByIdStmt(PreparedStatement deleteByIdStmt) {
-        this.deleteByIdStatement = deleteByIdStmt;
-    }
 
     public List<Fragebogen> getFragebogenByCreator(Connection con, Long userId) throws PersistenceException{
         return getElementByLongColumn(con, userId, fb_creator);
@@ -106,25 +100,19 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
                 Fragebogen fragebogen = new Fragebogen();
                 long key = resultSet.getLong(primary_key);
                 long ver = resultSet.getLong(vers);
-                Benutzer benutzer = null;
                 Optional<Benutzer> erstellerO = benutzerRepo.findById(con, resultSet.getLong(fb_creator));
-                if (!erstellerO.isPresent()) {
-                    //hier
-                }
-
+                fragebogen.setVersion(key);
+                fragebogen.setVersion(ver);
+                erstellerO.ifPresent(fragebogen::setErsteller);
+                fragebogenList.add(fragebogen);
             }
+
+            return fragebogenList;
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("parsing Fragebogen failed");
             throw PersistenceException.forSqlException(e);
         }
-
-        return null;
-    }
-
-    @Override
-    protected PreparedStatement getDeleteByIdStmt() {
-        return deleteByIdStatement;
     }
 
     @Override

@@ -6,15 +6,17 @@ public class Beantwortet extends Model<Beantwortet, Long> {
     private Benutzer benutzer;
     private int anzahlRichtig;
     private int anzahlFalsch;
+    private Frage frage;
 
     public Beantwortet() {
 
     }
 
-    public Beantwortet(Benutzer benutzer, int anzahlRichtig, int anzahlFalsch) {
+    public Beantwortet(Benutzer benutzer, int anzahlRichtig, int anzahlFalsch, Frage frage) {
         this.benutzer = Ensurer.ensureNotNull(benutzer);
         this.anzahlRichtig = Ensurer.ensureNotNegative(anzahlRichtig);
         this.anzahlFalsch = Ensurer.ensureNotNegative(anzahlFalsch);
+        this.frage = Ensurer.ensureNotNull(frage);
     }
 
     public Beantwortet(Long primaryKey, Long version, Benutzer benutzer, int anzahlRichtig, int anzahlFalsch) {
@@ -22,6 +24,7 @@ public class Beantwortet extends Model<Beantwortet, Long> {
         this.benutzer = Ensurer.ensureNotNull(benutzer);
         this.anzahlRichtig = Ensurer.ensureNotNegative(anzahlRichtig);
         this.anzahlFalsch = Ensurer.ensureNotNegative(anzahlFalsch);
+        this.frage = Ensurer.ensureNotNull(frage);
     }
 
     public Benutzer getBenutzer() {
@@ -47,4 +50,13 @@ public class Beantwortet extends Model<Beantwortet, Long> {
     public void setAnzahlFalsch(int anzahlFalsch) {
         this.anzahlFalsch = Ensurer.ensureNotNegative(anzahlFalsch);
     }
+
+    public Frage getFrage() {
+        return frage;
+    }
+
+    public void setFrage(Frage frage) {
+        this.frage = Ensurer.ensureNotNull(frage);
+    }
+
 }

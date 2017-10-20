@@ -1,47 +1,49 @@
 package at.pichlerlehner.studyweb.persistence;
 
-import at.pichlerlehner.studyweb.domain.Benutzer;
-import at.pichlerlehner.studyweb.domain.Berechtigung;
+import at.pichlerlehner.studyweb.domain.Frage;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
-import com.sun.jndi.ldap.Ber;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
+public class FrageRepo extends AbstractJdbcRepo<Frage> {
+
     //Namen
-    private String table_name = "Berechtigt";
-    private String b_user = "User_Id";
-    private String b_fragebogen = "Fragebogen_Id";
-    private String b_rechte = "Darf_bearbeiten";
+    private String table_name = "Frage";
+    private String f_fragebogen = "Fragebogen_Id";
+    private String f_frage = "Frage";
+    private String f_mulChoice = "IsMultipleChoice";
 
     @Override
-    protected long insert(Connection con, Berechtigung entity) throws PersistenceException {
-        String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers, b_fragebogen, b_rechte);
-        Long version = entity.getVersion();
-        Long user = entity.getBenutzer().getPrimaryKey();
-        Long fragebogen = entity.getFragebogen().getPrimaryKey();
-        boolean bearbeiten = entity.isDarfBearbeiten();
+    protected long insert(Connection con, Frage entity) throws PersistenceException {
+        String query = String.format("INSERT INTO %s (%s,%s,%s,%s) VALUES (?,?,?,?)", table_name, vers, f_fragebogen, f_frage, f_mulChoice);
+
+        long version = entity.getVersion();
+        long fragebogen = entity.getFragebogen().getPrimaryKey();
+        String frage = entity.getFrage();
+        boolean mulChoice = entity.isMultipleChoice();
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, version);
-            preparedStatement.setLong(2, user);
-            preparedStatement.setLong(3, fragebogen);
-            preparedStatement.setBoolean(4, bearbeiten);
+            preparedStatement.setLong(2, fragebogen);
+            preparedStatement.setString(3, frage);
+            preparedStatement.setBoolean(4, mulChoice);
 
             int affectedRow = preparedStatement.executeUpdate();
             if (affectedRow == 0) {
-                String message = "creating Berechtigung failed, no rows affected.";
+                String message = "creating Frage failed, no rows affected.";
                 logger.error(message);
                 throw new PersistenceException(message);
             }
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet == null) {
-                String message = "creating Berechtigung failed, couldn't generate primary key.";
+                String message = "creating Frage failed, couldn't generate primary key.";
                 logger.error(message);
                 throw new PersistenceException(message);
             }
@@ -51,7 +53,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
                 logger.info("primary key was generated with {}", generatedKey);
             }
             if (generatedKey == null) {
-                String message = "creating Berechtigung failed, couldn't generate primary key.";
+                String message = "creating Frage failed, couldn't generate primary key.";
                 logger.error(message);
                 throw new PersistenceException(message);
             }
@@ -60,20 +62,20 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
 
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("couldn't insert Berechtigung");
+            logger.error("couldn't insert Frage");
             throw PersistenceException.forSqlException(e);
         }
     }
 
     @Override
-    protected long update(Connection con, Berechtigung entity) throws PersistenceException {
-        String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers, b_fragebogen, b_user, b_rechte, primary_key);
+    protected long update(Connection con, Frage entity) throws PersistenceException {
+        String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers,f_fragebogen, f_frage, f_mulChoice, primary_key);
 
         try {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
                 logger.error("Version conflict");
-                throw new PersistenceException("Berechtigung has recently been updated");
+                throw new PersistenceException("Frage has recently been updated");
             } else {
                 entity.setVersion(entity.getVersion() + 1);
             }
@@ -81,8 +83,8 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
             preparedStatement.setLong(2, entity.getFragebogen().getPrimaryKey());
-            preparedStatement.setLong(3, entity.getBenutzer().getPrimaryKey());
-            preparedStatement.setBoolean(4, entity.isDarfBearbeiten());
+            preparedStatement.setString(3, entity.getFrage());
+            preparedStatement.setBoolean(4, entity.isMultipleChoice());
             preparedStatement.setLong(5, entity.getPrimaryKey());
 
             int affectedRows = preparedStatement.executeUpdate();
@@ -94,7 +96,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
             return entity.getPrimaryKey();
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("updating Berechtigung failed.");
+            logger.error("updating Frage failed.");
             throw PersistenceException.forSqlException(e);
         }
     }
@@ -110,38 +112,32 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     }
 
     @Override
-    protected List<Berechtigung> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
-        List<Berechtigung> berechtigungList = new ArrayList<>();
-
-        BenutzerRepo benutzerRepo = new BenutzerRepo();
+    protected List<Frage> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
+        List<Frage> frageList = new ArrayList<>();
         FragebogenRepo fragebogenRepo = new FragebogenRepo();
-
         try {
             while (resultSet.next()) {
-                Berechtigung berechtigung = new Berechtigung();
+                Frage frage = new Frage();
+
                 long key = resultSet.getLong(primary_key);
                 long ver = resultSet.getLong(vers);
-                Optional<Benutzer> benutzer = benutzerRepo.findById(con, resultSet.getLong(b_user));
-                Optional<Fragebogen> fragebogen = fragebogenRepo.findById(con, resultSet.getLong(b_fragebogen));
-                boolean bearbeiten = resultSet.getBoolean(b_rechte);
+                Optional<Fragebogen> fragebogen = fragebogenRepo.findById(con, resultSet.getLong(f_fragebogen));
+                String frageS = resultSet.getString(f_frage);
+                boolean mulC = resultSet.getBoolean(f_mulChoice);
 
-                berechtigung.setPrimaryKey(key);
-                berechtigung.setVersion(ver);
-                benutzer.ifPresent(berechtigung::setBenutzer);
-                fragebogen.ifPresent(berechtigung::setFragebogen);
-                berechtigung.setDarfBearbeiten(bearbeiten);
+                frage.setPrimaryKey(key);
+                frage.setVersion(ver);
+                fragebogen.ifPresent(frage::setFragebogen);
+                frage.setFrage(frageS);
+                frage.setMultipleChoice(mulC);
 
-                berechtigungList.add(berechtigung);
+                frageList.add(frage);
             }
-            return berechtigungList;
+            return frageList;
         } catch (SQLException e) {
             e.printStackTrace();
             logger.error("parsing Berechtigung failed");
             throw PersistenceException.forSqlException(e);
         }
-    }
-
-    public List<Berechtigung> getBerechtigungByUser(Connection con, Long userId) throws PersistenceException{
-        return getElementByLongColumn(con, userId, b_user);
     }
 }

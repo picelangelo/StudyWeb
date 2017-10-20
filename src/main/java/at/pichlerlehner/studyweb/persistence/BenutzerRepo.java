@@ -17,7 +17,6 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     private String b_vorname = "Vorname";
     private String b_nachname = "Nachname";
 
-    private PreparedStatement deleteByIdStatement;
 
 
 
@@ -71,8 +70,8 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
 
     @Override
     protected long update(Connection con, Benutzer entity) throws PersistenceException {
-        String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=?", table_name, vers, b_email,
-                b_password, b_vorname, b_nachname);
+        String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?", table_name, vers, b_email,
+                b_password, b_vorname, b_nachname, primary_key);
 
 
         PreparedStatement preparedStatement = null;
@@ -91,7 +90,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
             preparedStatement.setString(3, entity.getPassword());
             preparedStatement.setString(4, entity.getVorname());
             preparedStatement.setString(5, entity.getNachname());
-
+            preparedStatement.setLong(6, entity.getPrimaryKey());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new PersistenceException("updating failed, no rows affected");
@@ -112,8 +111,6 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     @Override
     protected List<Benutzer> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
         List<Benutzer> benutzerList = new ArrayList<>();
-        FragebogenRepo fragebogenRepo = new FragebogenRepo();
-        BerechtigungRepo berechtigungRepo = new BerechtigungRepo();
         try {
             while (resultSet.next()) {
                 Benutzer benutzer = new Benutzer();
@@ -130,8 +127,6 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
                 benutzer.setPassword(pas);
                 benutzer.setVorname(vor);
                 benutzer.setNachname(nac);
-                benutzer.setFrageboegenErstellt(fragebogenRepo.getFragebogenByCreator(con, key));
-                benutzer.setBerechtigungsList(berechtigungRepo.getBerechtigungByUser(con, key));
                 benutzerList.add(benutzer);
             }
 
@@ -141,16 +136,6 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
             logger.error("parsing user failed");
             throw PersistenceException.forSqlException(e);
         }
-    }
-
-    @Override
-    protected void storeDeleteByIdStmt(PreparedStatement deleteByIdStmt) {
-        this.deleteByIdStatement = deleteByIdStmt;
-    }
-
-    @Override
-    protected PreparedStatement getDeleteByIdStmt() {
-        return deleteByIdStatement;
     }
 
     @Override
