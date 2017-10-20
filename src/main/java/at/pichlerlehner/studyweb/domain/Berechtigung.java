@@ -6,16 +6,24 @@ public class Berechtigung extends Model<Berechtigung, Long> {
 
     private Fragebogen fragebogen;
     private boolean darfBearbeiten;
+    private Benutzer benutzer;
 
-    public Berechtigung(Fragebogen fragebogen, boolean darfBearbeiten) {
-        this.fragebogen = Ensurer.ensureNotNull(fragebogen);
-        this.darfBearbeiten = darfBearbeiten;
+
+    public Berechtigung() {
+
     }
 
-    public Berechtigung(Long primaryKey, Long version, Fragebogen fragebogen, boolean darfBearbeiten) {
+    public Berechtigung(Fragebogen fragebogen, boolean darfBearbeiten, Benutzer benutzer) {
+        this.fragebogen = Ensurer.ensureNotNull(fragebogen);
+        this.darfBearbeiten = darfBearbeiten;
+        this.benutzer = Ensurer.ensureNotNull(benutzer);
+    }
+
+    public Berechtigung(Long primaryKey, Long version, Fragebogen fragebogen, boolean darfBearbeiten, Benutzer benutzer) {
         super(primaryKey, version);
         this.fragebogen = Ensurer.ensureNotNull(fragebogen);
         this.darfBearbeiten = darfBearbeiten;
+        this.benutzer = Ensurer.ensureNotNull(benutzer);
     }
 
     public Fragebogen getFragebogen() {
@@ -32,5 +40,13 @@ public class Berechtigung extends Model<Berechtigung, Long> {
 
     public void setDarfBearbeiten(boolean darfBearbeiten) {
         this.darfBearbeiten = darfBearbeiten;
+    }
+
+    public void setBenutzer(Benutzer benutzer) {
+        this.benutzer = Ensurer.ensureNotNull(benutzer);
+    }
+
+    public Benutzer getBenutzer() {
+        return benutzer;
     }
 }
