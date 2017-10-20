@@ -60,6 +60,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
                 throw new PersistenceException(message);
             }
             con.commit();
+            logger.info(String.format("Successfully inserted new user with primary key %s", generatedKey.toString()));
             return generatedKey;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,8 +115,8 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
         try {
             while (resultSet.next()) {
                 Benutzer benutzer = new Benutzer();
-                long key = resultSet.getLong(primary_key);
-                long ver = resultSet.getLong(vers);
+                Long key = resultSet.getLong(primary_key);
+                Long ver = resultSet.getLong(vers);
                 String ema = resultSet.getString(b_email);
                 String pas = resultSet.getString(b_password);
                 String vor = resultSet.getString(b_vorname);

@@ -16,9 +16,9 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
 
     //Namen
-    protected String primary_key = "Id";
-    protected String vers = "Version";
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    String primary_key = "Id";
+    String vers = "Version";
+    final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public long save(Connection con, DOMAIN entity) throws PersistenceException {
@@ -89,13 +89,16 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
             preparedStatement = con.prepareStatement(deleteByIdSQL);
 
+
             if (id == null) {
                 preparedStatement.setNull(1, Types.BIGINT);
             } else {
                 preparedStatement.setLong(1, id);
             }
 
-            return preparedStatement.executeUpdate();
+            int l =  preparedStatement.executeUpdate();
+            con.commit();
+            return l;
         } catch (SQLException sqlEx) {
             throw PersistenceException.forSqlException(sqlEx);
         }
@@ -112,7 +115,15 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
                 preparedStatement.setLong(1, id);
             }
             ResultSet resultSet = preparedStatement.executeQuery();
-            return resultSet.getLong(vers);
+            Long version = null;
+            while (resultSet.next()) {
+                version = resultSet.getLong(vers);
+            }
+            if (version == null) {
+                throw new PersistenceException("updating user failed.");
+            } else {
+                return version;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
