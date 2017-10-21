@@ -74,8 +74,9 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
-            if (!benutzerRepo.findById(con, entity.getErsteller().getPrimaryKey()).isPresent()) {
-                benutzerRepo.insert(con, entity.getErsteller());
+            if (entity.getErsteller().isNew()) {
+                long pk = benutzerRepo.insert(con, entity.getErsteller());
+                entity.getErsteller().setPrimaryKey(pk);
             }
             preparedStatement.setLong(2, entity.getErsteller().getPrimaryKey());
             preparedStatement.setLong(3, entity.getPrimaryKey());
@@ -109,7 +110,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
                 long key = resultSet.getLong(primary_key);
                 long ver = resultSet.getLong(vers);
                 Optional<Benutzer> erstellerO = benutzerRepo.findById(con, resultSet.getLong(fb_creator));
-                fragebogen.setVersion(key);
+                fragebogen.setPrimaryKey(key);
                 fragebogen.setVersion(ver);
                 erstellerO.ifPresent(fragebogen::setErsteller);
                 fragebogenList.add(fragebogen);

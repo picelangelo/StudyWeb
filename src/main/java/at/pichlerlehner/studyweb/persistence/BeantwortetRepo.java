@@ -96,12 +96,14 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
-            if (!frageRepo.findById(con, entity.getFrage().getPrimaryKey()).isPresent()) {
-                frageRepo.insert(con, entity.getFrage());
+            if (entity.getFrage().isNew()) {
+                long pk = frageRepo.insert(con, entity.getFrage());
+                entity.getFrage().setPrimaryKey(pk);
             }
             preparedStatement.setLong(2, entity.getFrage().getPrimaryKey());
-            if (!benutzerRepo.findById(con, entity.getBenutzer().getPrimaryKey()).isPresent()) {
-                benutzerRepo.insert(con, entity.getBenutzer());
+            if (entity.getBenutzer().isNew()) {
+                long pk = benutzerRepo.insert(con, entity.getBenutzer());
+                entity.getBenutzer().setPrimaryKey(pk);
             }
             preparedStatement.setLong(3, entity.getBenutzer().getPrimaryKey());
             preparedStatement.setInt(4, entity.getAnzahlRichtig());

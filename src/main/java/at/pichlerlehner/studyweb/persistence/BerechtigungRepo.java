@@ -90,12 +90,14 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
-            if (!fragebogenRepo.findById(con, entity.getFragebogen().getPrimaryKey()).isPresent()) {
-                fragebogenRepo.insert(con, entity.getFragebogen());
+            if (entity.getFragebogen().isNew()) {
+                long pk = fragebogenRepo.insert(con, entity.getFragebogen());
+                entity.getFragebogen().setPrimaryKey(pk);
             }
             preparedStatement.setLong(2, entity.getFragebogen().getPrimaryKey());
-            if (!benutzerRepo.findById(con, entity.getBenutzer().getPrimaryKey()).isPresent()) {
-                benutzerRepo.insert(con, entity.getBenutzer());
+            if (entity.getBenutzer().isNew()) {
+                long pk = benutzerRepo.insert(con, entity.getBenutzer());
+                entity.getBenutzer().setPrimaryKey(pk);
             }
             preparedStatement.setLong(3, entity.getBenutzer().getPrimaryKey());
             preparedStatement.setBoolean(4, entity.isDarfBearbeiten());

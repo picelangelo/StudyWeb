@@ -110,8 +110,9 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
-            if (!frageRepo.findById(con, entity.getFrage().getPrimaryKey()).isPresent()) {
-                frageRepo.insert(con, entity.getFrage());
+            if (entity.getFrage().isNew()) {
+                long pk = frageRepo.insert(con, entity.getFrage());
+                entity.getFrage().setPrimaryKey(pk);
             }
             preparedStatement.setLong(2, entity.getFrage().getPrimaryKey());
             preparedStatement.setString(3, entity.getAntwort());

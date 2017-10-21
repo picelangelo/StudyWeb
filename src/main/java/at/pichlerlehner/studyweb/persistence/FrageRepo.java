@@ -86,8 +86,9 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
-            if (!fragebogenRepo.findById(con, entity.getFragebogen().getPrimaryKey()).isPresent()) {
-                fragebogenRepo.insert(con, entity.getFragebogen());
+            if (entity.getFragebogen().isNew()) {
+                long pk = fragebogenRepo.insert(con, entity.getFragebogen());
+                entity.getFragebogen().setPrimaryKey(pk);
             }
             preparedStatement.setLong(2, entity.getFragebogen().getPrimaryKey());
             preparedStatement.setString(3, entity.getFrage());
