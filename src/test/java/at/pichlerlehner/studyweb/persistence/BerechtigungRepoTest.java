@@ -2,6 +2,7 @@ package at.pichlerlehner.studyweb.persistence;
 
 import at.pichlerlehner.studyweb.domain.Berechtigung;
 import org.junit.Test;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Optional;
 
@@ -34,17 +35,20 @@ public class BerechtigungRepoTest extends AbstractJdbcRepoTest {
     }
 
     @Override
+    @Test
     public void testUpdate() throws PersistenceException {
-        
+        throw new NotImplementedException();
     }
 
     @Override
+    @Test
     public void testFindById() throws PersistenceException {
-
+        throw new NotImplementedException();
     }
 
     @Override
+    @Test
     public void testDelete() throws PersistenceException {
-
+        throw new NotImplementedException();
     }
 }
