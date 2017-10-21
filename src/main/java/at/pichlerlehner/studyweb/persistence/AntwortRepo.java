@@ -1,9 +1,12 @@
 package at.pichlerlehner.studyweb.persistence;
 
 import at.pichlerlehner.studyweb.domain.Antwort;
+import at.pichlerlehner.studyweb.domain.Frage;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
 
@@ -16,20 +19,49 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
 
     @Override
     protected List<Antwort> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
-        return null;
+        List<Antwort> antwortList = new ArrayList<>();
+        FrageRepo frageRepo = new FrageRepo();
+        try {
+            while (resultSet.next()) {
+                Antwort antwort = new Antwort();
+                long key = resultSet.getLong(primary_key);
+                long ver = resultSet.getLong(vers);
+                Optional<Frage> frage = frageRepo.findById(con, resultSet.getLong(a_frage));
+                String antwortS = resultSet.getString(a_antwort);
+                boolean correct = resultSet.getBoolean(a_correct);
+
+                antwort.setPrimaryKey(key);
+                antwort.setVersion(ver);
+                frage.ifPresent(antwort::setFrage);
+                antwort.setAntwort(antwortS);
+                antwort.setCorrect(correct);
+
+                antwortList.add(antwort);
+            }
+            return antwortList;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("parsing Antwort failed");
+            throw PersistenceException.forSqlException(e);
+        }
     }
 
     @Override
     protected long insert(Connection con, Antwort entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers, a_frage, a_antwort, a_correct);
         Long version = entity.getVersion();
-        Long frage = entity.getFrage().getPrimaryKey();
+        Frage frage = entity.getFrage();
         String antwort = entity.getAntwort();
+        FrageRepo frageRepo = new FrageRepo();
         boolean correct = entity.isCorrect();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1,version);
-            preparedStatement.setLong(2, frage);
+            if (frage.isNew()) {
+                long pk = frageRepo.insert(con, frage);
+                frage.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(2, frage.getPrimaryKey());
             preparedStatement.setString(3, antwort);
             preparedStatement.setBoolean(4, correct);
 
@@ -67,6 +99,7 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
     @Override
     protected long update(Connection con, Antwort entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s=?", table_name, vers, a_frage, a_antwort, a_correct, primary_key);
+        FrageRepo frageRepo = new FrageRepo();
         try {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
@@ -77,6 +110,10 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            if (entity.getFrage().isNew()) {
+                long pk = frageRepo.insert(con, entity.getFrage());
+                entity.getFrage().setPrimaryKey(pk);
+            }
             preparedStatement.setLong(2, entity.getFrage().getPrimaryKey());
             preparedStatement.setString(3, entity.getAntwort());
             preparedStatement.setBoolean(4, entity.isCorrect());

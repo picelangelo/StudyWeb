@@ -6,9 +6,7 @@ import org.junit.Test;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.fail;
 
 public class BenutzerRepoTest extends AbstractJdbcRepoTest{

@@ -20,17 +20,26 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
 
     @Override
     protected long insert(Connection con, Berechtigung entity) throws PersistenceException {
-        String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers, b_fragebogen, b_rechte);
+        String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers,b_user, b_fragebogen, b_rechte);
         Long version = entity.getVersion();
-        Long user = entity.getBenutzer().getPrimaryKey();
-        Long fragebogen = entity.getFragebogen().getPrimaryKey();
+        Benutzer user = entity.getBenutzer();
+        Fragebogen fragebogen = entity.getFragebogen();
         boolean bearbeiten = entity.isDarfBearbeiten();
-
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
+        FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, version);
-            preparedStatement.setLong(2, user);
-            preparedStatement.setLong(3, fragebogen);
+            if (user.isNew()) {
+                long pk = benutzerRepo.insert(con, user);
+                user.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(2, user.getPrimaryKey());
+            if (fragebogen.isNew()) {
+                long pk = fragebogenRepo.insert(con, fragebogen);
+                fragebogen.setPrimaryKey(pk);
+            }
+            preparedStatement.setLong(3, fragebogen.getPrimaryKey());
             preparedStatement.setBoolean(4, bearbeiten);
 
             int affectedRow = preparedStatement.executeUpdate();
@@ -68,7 +77,8 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     @Override
     protected long update(Connection con, Berechtigung entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers, b_fragebogen, b_user, b_rechte, primary_key);
-
+        BenutzerRepo benutzerRepo = new BenutzerRepo();
+        FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
             long version_db = getVersion(con, entity.getPrimaryKey());
             if (version_db != entity.getVersion()) {
@@ -80,7 +90,15 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
 
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            if (entity.getFragebogen().isNew()) {
+                long pk = fragebogenRepo.insert(con, entity.getFragebogen());
+                entity.getFragebogen().setPrimaryKey(pk);
+            }
             preparedStatement.setLong(2, entity.getFragebogen().getPrimaryKey());
+            if (entity.getBenutzer().isNew()) {
+                long pk = benutzerRepo.insert(con, entity.getBenutzer());
+                entity.getBenutzer().setPrimaryKey(pk);
+            }
             preparedStatement.setLong(3, entity.getBenutzer().getPrimaryKey());
             preparedStatement.setBoolean(4, entity.isDarfBearbeiten());
             preparedStatement.setLong(5, entity.getPrimaryKey());
