@@ -52,10 +52,10 @@ public class AntwortRepoTest extends AbstractJdbcRepoTest{
             }
         });
         Optional<Antwort> testAntwort2DB = antwortRepo.findById(connection, pk);
-        testAntwort2.ifPresent(x -> {
+        testAntwort2DB.ifPresent(x -> {
             assertThat(x.getAntwort()).isEqualTo(newAntwort);
         });
-        benutzerRepo.delete(connection, pk);
+        antwortRepo.delete(connection, pk);
         if (!testAntwort2.isPresent()) {
             fail();
             logger.error("TESTING UPDATE FAILED\n");

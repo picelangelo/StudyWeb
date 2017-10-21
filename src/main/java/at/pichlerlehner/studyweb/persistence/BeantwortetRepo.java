@@ -17,7 +17,7 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
     //Namen
     private String table_name = "Beantwortet";
     private String ba_frage = "Frage_Id";
-    private String ba_user = "Benutzer_Id";
+    private String ba_user = "User_Id";
     private String ba_richtig = "Anzahl_richtig";
     private String ba_falsch = "Anzahl_falsch";
 

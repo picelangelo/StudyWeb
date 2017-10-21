@@ -21,7 +21,6 @@ public abstract class AbstractJdbcRepoTest {
     final Fragebogen testFragebogen = new Fragebogen(testUser);
     final Frage testFrage = new Frage("Was ist mein Lieblingsfach?", true, testFragebogen);
     final Antwort testAntwort = new Antwort("NVS", true, testFrage);
-    final Antwort testAntwort2 = new Antwort("PRE", false, testFrage);
     final Berechtigung testBerechtigung = new Berechtigung(testFragebogen, true, testUser2);
     final Beantwortet testBeantwortet = new Beantwortet(testUser2, 2, 1, testFrage);
 
@@ -31,7 +30,7 @@ public abstract class AbstractJdbcRepoTest {
     final Logger logger = LoggerFactory.getLogger(getClass());
     final BenutzerRepo benutzerRepo = new BenutzerRepo();
     final AntwortRepo antwortRepo = new AntwortRepo();
-    final BeantwortetRepo be = new BeantwortetRepo();
+    final BeantwortetRepo beantwortetRepo = new BeantwortetRepo();
     final BerechtigungRepo berechtigungRepo = new BerechtigungRepo();
     final FragebogenRepo fragebogenRepo = new FragebogenRepo();
     final FrageRepo frageRepo = new FrageRepo();
