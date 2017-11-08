@@ -18,7 +18,7 @@ public abstract class AbstractService<DOMAIN extends Model<DOMAIN,Long>> {
     protected AbstractJdbcRepo<DOMAIN> repository;
     final Logger logger = LoggerFactory.getLogger(getClass());
 
-    public AbstractService() {
+    AbstractService() {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://localhost/studywebdb?user=root&useSSL=false");
             connection.setAutoCommit(false);

@@ -15,8 +15,8 @@ public class BenutzerService extends AbstractService<Benutzer>{
         repository = new BenutzerRepo();
     }
 
-    public List<Benutzer> findByEmail(){
-        return null;
+    public List<Benutzer> findByEmail(){return null;
     }
 
+    
 }
