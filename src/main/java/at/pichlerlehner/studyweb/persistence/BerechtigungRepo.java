@@ -19,7 +19,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     private String b_rechte = "Darf_bearbeiten";
 
     @Override
-    protected long insert(Connection con, Berechtigung entity) throws PersistenceException {
+    public long insert(Connection con, Berechtigung entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers,b_user, b_fragebogen, b_rechte);
         Long version = entity.getVersion();
         Benutzer user = entity.getBenutzer();
@@ -75,7 +75,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     }
 
     @Override
-    protected long update(Connection con, Berechtigung entity) throws PersistenceException {
+    public long update(Connection con, Berechtigung entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers, b_fragebogen, b_user, b_rechte, primary_key);
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         FragebogenRepo fragebogenRepo = new FragebogenRepo();

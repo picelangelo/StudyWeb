@@ -21,7 +21,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
 
 
     @Override
-    protected long insert(Connection con, Benutzer entity) throws PersistenceException {
+    public long insert(Connection con, Benutzer entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s,%s) VALUES (?,?,?,?,?)", table_name, vers, b_email,
                 b_password, b_vorname, b_nachname);
         Long version = entity.getVersion();
@@ -70,7 +70,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     }
 
     @Override
-    protected long update(Connection con, Benutzer entity) throws PersistenceException {
+    public long update(Connection con, Benutzer entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=?, %s=? WHERE %s=?", table_name, vers, b_email,
                 b_password, b_vorname, b_nachname, primary_key);
 

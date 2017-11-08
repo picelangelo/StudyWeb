@@ -157,9 +157,9 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
     protected abstract List<DOMAIN> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException;
 
-    protected abstract long insert(Connection con, DOMAIN entity) throws PersistenceException;
+    public abstract long insert(Connection con, DOMAIN entity) throws PersistenceException;
 
-    protected abstract long update(Connection con, DOMAIN entity) throws PersistenceException;
+    public abstract long update(Connection con, DOMAIN entity) throws PersistenceException;
 
     protected abstract String getTableName();
 

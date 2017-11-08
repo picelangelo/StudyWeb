@@ -47,7 +47,7 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
     }
 
     @Override
-    protected long insert(Connection con, Antwort entity) throws PersistenceException {
+    public long insert(Connection con, Antwort entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers, a_frage, a_antwort, a_correct);
         Long version = entity.getVersion();
         Frage frage = entity.getFrage();
@@ -97,7 +97,7 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
     }
 
     @Override
-    protected long update(Connection con, Antwort entity) throws PersistenceException {
+    public long update(Connection con, Antwort entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?, %s=?, %s=?, %s=? WHERE %s=?", table_name, vers, a_frage, a_antwort, a_correct, primary_key);
         FrageRepo frageRepo = new FrageRepo();
         try {
