@@ -15,7 +15,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     private String fb_creator = "User_Id";
 
     @Override
-    protected long insert(Connection con, Fragebogen entity) throws PersistenceException {
+    public long insert(Connection con, Fragebogen entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", table_name, vers, fb_creator);
         Long version = entity.getVersion();
         Benutzer creator = entity.getErsteller();
@@ -60,7 +60,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     }
 
     @Override
-    protected long update(Connection con, Fragebogen entity) throws PersistenceException {
+    public long update(Connection con, Fragebogen entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?, %s=? where %s=?", table_name, vers, fb_creator, primary_key);
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {

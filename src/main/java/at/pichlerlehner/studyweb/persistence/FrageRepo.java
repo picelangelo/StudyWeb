@@ -20,7 +20,7 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
     private String f_mulChoice = "IsMultipleChoice";
 
     @Override
-    protected long insert(Connection con, Frage entity) throws PersistenceException {
+    public long insert(Connection con, Frage entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s (%s,%s,%s,%s) VALUES (?,?,?,?)", table_name, vers, f_fragebogen, f_frage, f_mulChoice);
 
         long version = entity.getVersion();
@@ -72,7 +72,7 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
     }
 
     @Override
-    protected long update(Connection con, Frage entity) throws PersistenceException {
+    public long update(Connection con, Frage entity) throws PersistenceException {
         String query = String.format("UPDATE %s SET %s=?,%s=?,%s=?,%s=? WHERE %s=?", table_name, vers,f_fragebogen, f_frage, f_mulChoice, primary_key);
         FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
