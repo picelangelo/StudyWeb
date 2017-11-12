@@ -97,7 +97,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
 
 
     public List<Fragebogen> getFragebogenByCreator(Connection con, Long userId) throws PersistenceException{
-        return getElementByLongColumn(con, userId, fb_creator);
+        return getElementByLongColumn(con, fb_creator, userId);
     }
 
     @Override

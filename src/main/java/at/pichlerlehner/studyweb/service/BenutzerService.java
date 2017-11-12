@@ -10,12 +10,28 @@ import java.util.List;
 import java.util.Optional;
 
 public class BenutzerService extends AbstractService<Benutzer>{
+    private BenutzerRepo repository;
 
     public BenutzerService() {
         repository = new BenutzerRepo();
     }
 
-    public List<Benutzer> findByEmail(){return null;
+    public Optional<Benutzer> authorize(String email, String passwordSha256) {
+        email = Ensurer.ensureNotBlank(email);
+        passwordSha256 = Ensurer.ensureNotBlank(passwordSha256);
+        Optional<Benutzer> user;
+        try {
+            user = repository.findUserByEmailAndHashedPassword(connection, email, passwordSha256);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            logger.error("An error occurred while finding user");
+            throw ServiceException.forPersistenceException(e);
+        }
+        return user;
+    }
+
+    public List<Benutzer> findByEmail(){
+        return null;
     }
 
     
