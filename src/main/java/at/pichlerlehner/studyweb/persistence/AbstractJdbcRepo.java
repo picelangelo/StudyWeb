@@ -136,9 +136,21 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
         }
     }
 
-    public List<DOMAIN> getElementByLongColumn(Connection con, Long longValue, String columnName) throws PersistenceException {
-        String query = String.format("SELECT * FROM %s WHERE %s=?", getTableName(), columnName);
-        PreparedStatement preparedStatement = null;
+    protected List<DOMAIN> getElementByPreparedStmt(Connection con, PreparedStatement preparedStatement) throws PersistenceException {
+        try {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return parseResultSet(con, resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("Couldn't return element by preparedStatement");
+            throw PersistenceException.forSqlException(e);
+        }
+    }
+
+
+    protected List<DOMAIN> getElementByLongColumn(Connection con,  String columnName, Long longValue) throws PersistenceException{
+        String query = String.format("SELECT * FROM %s WHERE %s = ?", getTableName(), columnName);
+        PreparedStatement preparedStatement;
         try {
             preparedStatement = con.prepareStatement(query);
             if (longValue == null) {
@@ -150,10 +162,11 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
             return parseResultSet(con, resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
-            logger.error("Couldn't return element by longColumn");
+            logger.error(String.format("Couldn't return element by %s", columnName));
             throw PersistenceException.forSqlException(e);
         }
     }
+
 
     protected abstract List<DOMAIN> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException;
 
@@ -164,4 +177,5 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     protected abstract String getTableName();
 
     protected abstract String getPrimaryKeyColumnName();
+
 }

@@ -7,6 +7,7 @@ import at.pichlerlehner.studyweb.domain.Frage;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
 
@@ -16,8 +17,6 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     private String b_password = "Password";
     private String b_vorname = "Vorname";
     private String b_nachname = "Nachname";
-
-
 
 
     @Override
@@ -147,5 +146,21 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     @Override
     protected String getPrimaryKeyColumnName() {
         return primary_key;
+    }
+
+    public Optional<Benutzer> findUserByEmailAndHashedPassword(Connection con, String email, String passwordSha256) throws PersistenceException{
+        String query = String.format("SELECT * from %s WHERE %s = ? AND %s = ?", getTableName(), b_email, b_password);
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, passwordSha256);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("parsing user failed");
+            throw PersistenceException.forSqlException(e);
+        }
+        List<Benutzer> benutzerList = getElementByPreparedStmt(con, preparedStatement);
+        return benutzerList.isEmpty() ? Optional.empty() : Optional.of(benutzerList.get(0));
     }
 }

@@ -91,4 +91,20 @@ public class BenutzerRepoTest extends AbstractJdbcRepoTest{
         assertThat(count1).isEqualTo(count2 + 1);
         logger.info("TESTING DELETE SUCCESSFUL\n");
     }
+
+    @Test
+    public void testUserPass() throws PersistenceException {
+        logger.info("TESTING USER PASS");
+        String pass = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+        String email = "admin@test.com";
+        Optional<Benutzer> benutzer = benutzerRepo.findUserByEmailAndHashedPassword(connection, email, pass);
+        assertThat(benutzer.isPresent()).isTrue();
+
+        String passw = "wrongpass";
+        String emailw = "admin@wrong.com";
+        Optional<Benutzer> benutzerw = benutzerRepo.findUserByEmailAndHashedPassword(connection, emailw, passw);
+        assertThat(benutzerw.isPresent()).isEqualTo(false);
+
+        logger.info("TESTING USER SUCCESSFUL\n");
+    }
 }

@@ -13,17 +13,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class AbstractService<DOMAIN extends Model<DOMAIN,Long>> {
+abstract class AbstractService<DOMAIN extends Model<DOMAIN,Long>> {
     protected Connection connection;
     protected AbstractJdbcRepo<DOMAIN> repository;
     final Logger logger = LoggerFactory.getLogger(getClass());
 
     AbstractService() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost/studywebdb?user=root&useSSL=false");
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/studywebdb?user=root&useSSL=false");
             connection.setAutoCommit(false);
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            throw ServiceException.forException(e);
         }
     }
 

@@ -160,6 +160,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     }
 
     public List<Berechtigung> getBerechtigungByUser(Connection con, Long userId) throws PersistenceException{
-        return getElementByLongColumn(con, userId, b_user);
+        return getElementByLongColumn(con, b_user, userId);
     }
+
 }
