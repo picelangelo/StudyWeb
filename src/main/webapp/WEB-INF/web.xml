@@ -17,6 +17,10 @@
     <servlet-name>Welcome</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.WelcomeServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>LogOut</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.LogOutServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -33,5 +37,9 @@
   <servlet-mapping>
     <servlet-name>Welcome</servlet-name>
     <url-pattern>/welcome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogOut</servlet-name>
+    <url-pattern>/logout</url-pattern>
   </servlet-mapping>
 </web-app>
