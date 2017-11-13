@@ -1,16 +1,22 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+    if (request.getSession().getAttribute("USER") != null) {
+        response.sendRedirect("/welcome");
+    }
+%>
 <html>
 <head>
     <title>StudyWeb | Login</title>
-    <link rel="shortcut icon" type="image/x-icon" href="images/logo.PNG">
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/logo.PNG">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/materialize.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="../../css/materialize.css">
+    <link rel="stylesheet" href="../../css/index.css">
 </head>
 
 <body>
 <div class="container">
     <div class="center-align row">
-        <h1 class="indigo-text">Welcome to Studyweb</h1>
+        <h3 class="indigo-text">Welcome to Studyweb</h3>
         <h5 class="indigo-text">Please login to your account</h5>
         <div style="padding: 32px 48px 0px 48px; border: 1px solid #EEE;" class="z-depth-1 grey lighten-4 col s4 offset-s4">
 
@@ -42,12 +48,12 @@
                 </div>
             </form>
         </div>
-        <div class="col s12"><a href="src/create.html">Create account</a></div>
+        <div class="col s12"><a href="/register">Create account</a></div>
     </div>
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="js/materialize.js"></script>
+<script type="text/javascript" src="../../js/materialize.js"></script>
 </body>
 
 </html>
