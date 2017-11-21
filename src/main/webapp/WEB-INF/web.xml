@@ -4,4 +4,42 @@
 
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
+  
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.LoginServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Register</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.RegisterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Welcome</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.WelcomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LogOut</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.LogOutServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern></url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Welcome</servlet-name>
+    <url-pattern>/welcome</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LogOut</servlet-name>
+    <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
 </web-app>

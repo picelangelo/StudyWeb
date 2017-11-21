@@ -27,4 +27,12 @@ public final class Ensurer {
         return number;
     }
 
+    public static long ensureNotNegative(long number) {
+        if (number < 0)
+            throw new IllegalArgumentException("Argument must not be smaller than null");
+
+        return number;
+    }
+
+
 }
