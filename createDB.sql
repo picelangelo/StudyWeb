@@ -29,6 +29,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `StudyWebDB`.`Fragebogen` (
   `Id` BIGINT NOT NULL AUTO_INCREMENT,
+  `Bezeichnung` VARCHAR(100) NOT NULL,
   `Version` BIGINT NOT NULL,
   `User_Id` BIGINT NOT NULL,
   PRIMARY KEY (`Id`),

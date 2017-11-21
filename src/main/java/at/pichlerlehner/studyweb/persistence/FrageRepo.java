@@ -3,10 +3,7 @@ package at.pichlerlehner.studyweb.persistence;
 import at.pichlerlehner.studyweb.domain.Frage;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +26,7 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
         boolean mulChoice = entity.isMultipleChoice();
         FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
+            PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, version);
             if (fragebogen.isNew()) {
                 long pk = fragebogenRepo.insert(con, fragebogen);

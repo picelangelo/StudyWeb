@@ -10,10 +10,10 @@ VALUES
 
 
 INSERT INTO `studywebdb`.`fragebogen`
-(`Version`,
+(`Bezeichnung`, `Version`,
 `User_Id`)
 VALUES
-(0, 1);
+('TESTQUIZ', 0, 1);
 
 INSERT INTO `studywebdb`.`frage`
 (`Version`,

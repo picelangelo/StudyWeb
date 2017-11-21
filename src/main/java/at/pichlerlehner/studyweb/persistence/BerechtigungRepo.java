@@ -28,7 +28,7 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         FragebogenRepo fragebogenRepo = new FragebogenRepo();
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
+            PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, version);
             if (user.isNew()) {
                 long pk = benutzerRepo.insert(con, user);

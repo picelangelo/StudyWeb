@@ -4,12 +4,16 @@ import at.pichlerlehner.studyweb.foundation.Ensurer;
 
 import java.util.List;
 
+
 public class Fragebogen extends Model<Fragebogen, Long> {
     private Benutzer ersteller;
+    private String bezeichnung;
+
 
     public Fragebogen() {}
 
-    public Fragebogen(Benutzer ersteller) {
+    public Fragebogen(String bezeichnung, Benutzer ersteller) {
+        this.bezeichnung = Ensurer.ensureNotBlank(bezeichnung);
         this.ersteller = Ensurer.ensureNotNull(ersteller);
     }
 
@@ -25,4 +29,13 @@ public class Fragebogen extends Model<Fragebogen, Long> {
     public void setErsteller(Benutzer ersteller) {
         this.ersteller = Ensurer.ensureNotNull(ersteller);
     }
+
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
 }
