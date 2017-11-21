@@ -2,6 +2,7 @@ package at.pichlerlehner.studyweb.persistence;
 
 import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
+import at.pichlerlehner.studyweb.foundation.Ensurer;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,21 +14,24 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     //Namen
     private String table_name = "Fragebogen";
     private String fb_creator = "User_Id";
+    private String fb_bezeichnung = "Bezeichnung";
 
     @Override
     public long insert(Connection con, Fragebogen entity) throws PersistenceException {
-        String query = String.format("INSERT INTO %s(%s,%s) VALUES(?,?)", table_name, vers, fb_creator);
+        String query = String.format("INSERT INTO %s(%s,%s,%s) VALUES(?,?,?)", table_name, vers, fb_bezeichnung, fb_creator);
         Long version = entity.getVersion();
+        String bezeichnung = entity.getBezeichnung();
         Benutzer creator = entity.getErsteller();
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, version);
+            preparedStatement.setString(2,Ensurer.ensureNotBlank(bezeichnung));
             if (creator.isNew()) {
                 long pk = benutzerRepo.insert(con, creator);
                 creator.setPrimaryKey(pk);
             }
-            preparedStatement.setLong(2, creator.getPrimaryKey());
+            preparedStatement.setLong(3, creator.getPrimaryKey());
             int affectedRow = preparedStatement.executeUpdate();
             if (affectedRow == 0) {
                 String message = "creating Fragebogen failed, no rows affected.";
@@ -61,7 +65,7 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
 
     @Override
     public long update(Connection con, Fragebogen entity) throws PersistenceException {
-        String query = String.format("UPDATE %s SET %s=?, %s=? where %s=?", table_name, vers, fb_creator, primary_key);
+        String query = String.format("UPDATE %s SET %s=?, %s=?, %s=? where %s=?", table_name, vers, fb_bezeichnung, fb_creator, primary_key);
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
             //Optimistic Locking
@@ -74,12 +78,13 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
             }
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.setLong(1, entity.getVersion());
+            preparedStatement.setString(2, entity.getBezeichnung());
             if (entity.getErsteller().isNew()) {
                 long pk = benutzerRepo.insert(con, entity.getErsteller());
                 entity.getErsteller().setPrimaryKey(pk);
             }
-            preparedStatement.setLong(2, entity.getErsteller().getPrimaryKey());
-            preparedStatement.setLong(3, entity.getPrimaryKey());
+            preparedStatement.setLong(3, entity.getErsteller().getPrimaryKey());
+            preparedStatement.setLong(4, entity.getPrimaryKey());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new PersistenceException("updating failed, no rows affected");
@@ -109,9 +114,11 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
                 Fragebogen fragebogen = new Fragebogen();
                 long key = resultSet.getLong(primary_key);
                 long ver = resultSet.getLong(vers);
+                String bezeichnung = resultSet.getString(fb_bezeichnung);
                 Optional<Benutzer> erstellerO = benutzerRepo.findById(con, resultSet.getLong(fb_creator));
                 fragebogen.setPrimaryKey(key);
                 fragebogen.setVersion(ver);
+                fragebogen.setBezeichnung(bezeichnung);
                 erstellerO.ifPresent(fragebogen::setErsteller);
                 fragebogenList.add(fragebogen);
             }

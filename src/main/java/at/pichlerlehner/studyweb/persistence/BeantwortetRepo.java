@@ -4,10 +4,7 @@ import at.pichlerlehner.studyweb.domain.Beantwortet;
 import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.domain.Frage;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,7 +31,7 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
         FrageRepo frageRepo = new FrageRepo();
         BenutzerRepo benutzerRepo = new BenutzerRepo();
         try {
-            PreparedStatement preparedStatement = con.prepareStatement(query);
+            PreparedStatement preparedStatement = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setLong(1, version);
             if (frage.isNew()) {
                 long pk = frageRepo.insert(con, frage);
