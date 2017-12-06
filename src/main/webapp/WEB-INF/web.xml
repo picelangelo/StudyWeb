@@ -21,6 +21,10 @@
     <servlet-name>LogOut</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.LogOutServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>NewQuiz</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.NewQuizServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -41,5 +45,9 @@
   <servlet-mapping>
     <servlet-name>LogOut</servlet-name>
     <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NewQuiz</servlet-name>
+    <url-pattern>/new</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -1,16 +1,16 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Benutzer benutzer = new Benutzer();
-    if (request.getSession().getAttribute("USER") == null) {
+        Benutzer benutzer = new Benutzer();
+        if (request.getSession().getAttribute("USER") == null) {
         response.sendRedirect("/login");
-    } else {
+        } else {
         benutzer = (Benutzer) request.getSession().getAttribute("USER");
-    }
+        }
 %>
 <html>
 <head>
-    <title>StudyWeb | Welcome</title>
+    <title>StudyWeb | Add Questions</title>
     <link rel="shortcut icon" type="image/x-icon" href="../../../images/logo.PNG">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../css/materialize.css">
@@ -21,11 +21,14 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <%= benutzer.getVorname()%>
     </h4>
-    <ul>
-        <li>
-            <a href="/new">Create New Quiz</a>
-        </li>
-    </ul>
+    <h5>
+        Add Questions to
+    </h5>
+    <br/>
 </div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../../js/materialize.js"></script>
 </body>
 </html>
