@@ -16,14 +16,19 @@ import java.io.IOException;
 public class NewQuizServlet extends BaseServlet{
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (!isLoggedIn(request)) {
+            response.sendRedirect("/welcome");
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/newquiz.jsp");
         dispatcher.forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title = "asdf";
-        title = request.getParameter("quiz-title");
+        if (!isLoggedIn(request)) {
+            response.sendRedirect("/welcome");
+        }
+        String title = request.getParameter("quiz-title");
         if (title == null || title.isEmpty()) {
             response.sendRedirect("/new");
         } else {
@@ -32,6 +37,5 @@ public class NewQuizServlet extends BaseServlet{
             HttpSession session = request.getSession();
             session.setAttribute("new_title", title);
         }
-
     }
 }

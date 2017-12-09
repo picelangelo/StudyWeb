@@ -7,7 +7,6 @@ import com.google.common.hash.Hashing;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +18,9 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (isLoggedIn(request)) {
+            response.sendRedirect("/welcome");
+        }
         String password = request.getParameter("password");
         password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         String email = request.getParameter("email");
@@ -36,6 +38,9 @@ public class LoginServlet extends BaseServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (isLoggedIn(request)) {
+            response.sendRedirect("/welcome");
+        }
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
         dispatcher.forward(request, response);
     }

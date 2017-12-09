@@ -1,12 +1,7 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-    Benutzer benutzer = new Benutzer();
-    if (request.getSession().getAttribute("USER") == null) {
-        response.sendRedirect("/login");
-    } else {
-        benutzer = (Benutzer) request.getSession().getAttribute("USER");
-    }
+    Benutzer benutzer =  (Benutzer) request.getSession().getAttribute("USER");
 %>
 <html>
 <head>
