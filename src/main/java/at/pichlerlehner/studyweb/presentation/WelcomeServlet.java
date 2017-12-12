@@ -11,18 +11,20 @@ public class WelcomeServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLoggedIn(request)) {
-            response.sendRedirect("/welcome");
+            response.sendRedirect("/login");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
-        dispatcher.forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLoggedIn(request)) {
-            response.sendRedirect("/welcome");
+            response.sendRedirect("/login");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
-        dispatcher.forward(request, response);
     }
 }

@@ -20,19 +20,20 @@ public class LoginServlet extends BaseServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isLoggedIn(request)) {
             response.sendRedirect("/welcome");
-        }
-        String password = request.getParameter("password");
-        password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-        String email = request.getParameter("email");
-        BenutzerService benutzerService = new BenutzerService();
-        Optional<Benutzer> benutzer = benutzerService.authorize(email, password);
-
-        if (benutzer.isPresent()) {
-            HttpSession session = request.getSession();
-            session.setAttribute("USER", benutzer.get());
-            response.sendRedirect("/welcome");
         } else {
-            response.sendRedirect("/login");
+            String password = request.getParameter("password");
+            password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
+            String email = request.getParameter("email");
+            BenutzerService benutzerService = new BenutzerService();
+            Optional<Benutzer> benutzer = benutzerService.authorize(email, password);
+
+            if (benutzer.isPresent()) {
+                HttpSession session = request.getSession();
+                session.setAttribute("USER", benutzer.get());
+                response.sendRedirect("/welcome");
+            } else {
+                response.sendRedirect("/login");
+            }
         }
     }
 
@@ -40,8 +41,9 @@ public class LoginServlet extends BaseServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isLoggedIn(request)) {
             response.sendRedirect("/welcome");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/index.jsp");
-        dispatcher.forward(request, response);
     }
 }

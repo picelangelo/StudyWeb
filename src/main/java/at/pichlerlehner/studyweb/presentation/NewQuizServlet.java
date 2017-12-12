@@ -1,5 +1,8 @@
 package at.pichlerlehner.studyweb.presentation;
 
+import at.pichlerlehner.studyweb.domain.Benutzer;
+import at.pichlerlehner.studyweb.domain.Fragebogen;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,29 +16,33 @@ import java.io.IOException;
  * Author: Philip
  * Created: 29.11.2017
  */
-public class NewQuizServlet extends BaseServlet{
+public class NewQuizServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLoggedIn(request)) {
-            response.sendRedirect("/welcome");
+            response.sendRedirect("/login");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/newquiz.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/newquiz.jsp");
-        dispatcher.forward(request, response);
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLoggedIn(request)) {
-            response.sendRedirect("/welcome");
-        }
-        String title = request.getParameter("quiz-title");
-        if (title == null || title.isEmpty()) {
-            response.sendRedirect("/new");
+            response.sendRedirect("/login");
         } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/addquestion.jsp");
-            dispatcher.forward(request, response);
             HttpSession session = request.getSession();
-            session.setAttribute("new_title", title);
+            Benutzer user = (Benutzer) session.getAttribute("USER");
+            String title = request.getParameter("quiz-title");
+            if (title == null || title.isEmpty()) {
+                response.sendRedirect("/new");
+            } else {
+                Fragebogen fragebogen = new Fragebogen(title, user);
+                session.setAttribute("QUIZ", fragebogen);
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/addquestion.jsp");
+                dispatcher.forward(request, response);
+            }
         }
     }
 }

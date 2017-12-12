@@ -12,11 +12,12 @@ public class RegisterServlet extends BaseServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (!isLoggedIn(request)) {
+        if (isLoggedIn(request)) {
             response.sendRedirect("/welcome");
+        } else {
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/register.jsp");
+            dispatcher.forward(request, response);
         }
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/register.jsp");
-        dispatcher.forward(request, response);
     }
 
     @Override
