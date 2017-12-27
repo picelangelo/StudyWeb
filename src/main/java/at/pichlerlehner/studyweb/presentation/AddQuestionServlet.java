@@ -3,6 +3,9 @@ package at.pichlerlehner.studyweb.presentation;
 import at.pichlerlehner.studyweb.domain.Antwort;
 import at.pichlerlehner.studyweb.domain.Frage;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
+import at.pichlerlehner.studyweb.service.AntwortService;
+import at.pichlerlehner.studyweb.service.FrageService;
+import at.pichlerlehner.studyweb.service.FragebogenService;
 import com.google.common.collect.Lists;
 
 import javax.servlet.RequestDispatcher;
@@ -61,33 +64,47 @@ public class AddQuestionServlet extends BaseServlet {
                 antworten.add(a1);
             }
 
-            List<Frage> fragen = Arrays.asList(frage);
+            List<Frage> fragen = new ArrayList<>();
+            fragen.add(frage);
             if (Objects.isNull(session.getAttribute("QUESTIONS"))) {
                 session.setAttribute("QUESTIONS", fragen);
             } else {
-                List<Frage> sessionFragen = ((List<Frage>) session.getAttribute("QUESTIONS"));
-                session.removeAttribute("QUESTIONS");
-                fragen.addAll(sessionFragen);
-                session.setAttribute("QUESTIONS", fragen);
+                List<Frage> sessionFragen = ((ArrayList<Frage>) session.getAttribute("QUESTIONS"));
+                sessionFragen.addAll(fragen);
             }
             if (Objects.isNull(session.getAttribute("ANSWERS"))) {
                 session.setAttribute("ANSWERS", antworten);
             } else {
                 ArrayList<Antwort> sessionAntworten = ((ArrayList<Antwort>) session.getAttribute("ANSWERS"));
-                session.removeAttribute("ANSWERS");
-                antworten.addAll(sessionAntworten);
-                session.setAttribute("ANSWERS", antworten);
+                sessionAntworten.addAll(antworten);
             }
 
             if (request.getParameter("submit").equals("finished")) {
+                long quizPK = saveAll(request);
                 session.removeAttribute("QUIZ");
                 session.removeAttribute("QUESTIONS");
                 session.removeAttribute("ANSWERS");
-                response.sendRedirect("/welcome");
+                session.setAttribute("SUCCESS", String.format("Der Fragebogen \"%s\" mit dem Schlüssel %d wurde gespeichert.", fragebogen.getBezeichnung(), quizPK));
+                response.sendRedirect("/success");
             } else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/addquestion.jsp");
                 dispatcher.forward(request, response);
             }
         }
+    }
+
+    private long saveAll(HttpServletRequest request) {
+        FragebogenService fragebogenService = new FragebogenService();
+        AntwortService antwortService = new AntwortService();
+        FrageService frageService = new FrageService();
+
+        HttpSession session = request.getSession();
+        List<Antwort> antwortList = (ArrayList<Antwort>) session.getAttribute("ANSWERS");
+        List<Frage> frageList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
+        Fragebogen fragebogen = (Fragebogen) session.getAttribute("QUIZ");
+
+        antwortService.saveAll(antwortList);
+        frageService.saveAll(frageList);
+        return fragebogenService.saveEntity(fragebogen);
     }
 }

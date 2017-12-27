@@ -42,6 +42,12 @@ abstract class AbstractService<DOMAIN extends Model<DOMAIN,Long>> {
         return result;
     }
 
+    public void saveAll(List<DOMAIN> domains) {
+        for (DOMAIN entity : domains) {
+            this.saveEntity(entity);
+        }
+    }
+
     public long createEntity(DOMAIN entity) {
         entity = Ensurer.ensureNotNull(entity);
         long result;
