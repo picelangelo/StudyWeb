@@ -33,6 +33,10 @@
     <servlet-name>Success</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.SuccessServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Show</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ShowQuizServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -65,5 +69,9 @@
   <servlet-mapping>
     <servlet-name>Success</servlet-name>
     <url-pattern>/success</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Show</servlet-name>
+    <url-pattern>/show</url-pattern>
   </servlet-mapping>
 </web-app>

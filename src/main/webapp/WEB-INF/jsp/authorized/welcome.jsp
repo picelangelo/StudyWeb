@@ -20,6 +20,9 @@
         <li>
             <a href="/new">Create New Quiz</a>
         </li>
+        <li>
+            <a href="/show">Show Quizzes</a>
+        </li>
     </ul>
 </div>
 </body>
