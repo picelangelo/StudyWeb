@@ -9,6 +9,18 @@
 </head>
 
 <body>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper indigo">
+            <div class="container">
+                <a class="brand-logo" href="welcome">Studyweb</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
 <div class="container">
     <div class="center-align row">
         <h1 class="indigo-text">Welcome to Studyweb</h1>
@@ -23,31 +35,31 @@
 
                 <div class="row">
                     <div class="input-field col s12">
-                        <input name="firstname" id="firstname" type="text">
+                        <input name="firstname" id="firstname" type="text" required>
                         <label for="firstname">Enter your Firstname</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input name="lastname" id="lastname" type="text">
+                        <input name="lastname" id="lastname" type="text" required>
                         <label for="lastname">Enter your Lastname</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input class="validate" name="email" id="email" type="email">
+                        <input class="validate" name="email" id="email" type="email" required>
                         <label for="email" class="">Enter your email</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input class="validate" name="password" id="password" type="password">
+                        <input class="validate" name="password" id="password" type="password" required>
                         <label for="password" class="">Enter your password</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <input class="validate" name="password2" id="password2" type="password">
+                        <input class="validate" name="password2" id="password2" type="password" required>
                         <label for="password2" class="">Repeate your password</label>
                     </div>
                 </div>

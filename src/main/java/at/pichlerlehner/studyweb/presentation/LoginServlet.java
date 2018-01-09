@@ -20,19 +20,23 @@ public class LoginServlet extends BaseServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (isLoggedIn(request)) {
             response.sendRedirect("/welcome");
-        } else {
+        } else{
             String password = request.getParameter("password");
             password = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
             String email = request.getParameter("email");
-            BenutzerService benutzerService = new BenutzerService();
-            Optional<Benutzer> benutzer = benutzerService.authorize(email, password);
-
-            if (benutzer.isPresent()) {
-                HttpSession session = request.getSession();
-                session.setAttribute("USER", benutzer.get());
-                response.sendRedirect("/welcome");
-            } else {
+            if(password.isEmpty() || email.isEmpty()){
                 response.sendRedirect("/login");
+            }else {
+                BenutzerService benutzerService = new BenutzerService();
+                Optional<Benutzer> benutzer = benutzerService.authorize(email, password);
+
+                if (benutzer.isPresent()) {
+                    HttpSession session = request.getSession();
+                    session.setAttribute("USER", benutzer.get());
+                    response.sendRedirect("/welcome");
+                } else {
+                    response.sendRedirect("/login");
+                }
             }
         }
     }
