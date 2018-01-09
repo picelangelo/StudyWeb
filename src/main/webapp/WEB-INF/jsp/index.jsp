@@ -1,9 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    if (request.getSession().getAttribute("USER") != null) {
-        response.sendRedirect("/welcome");
-    }
-%>
 <html>
 <head>
     <title>StudyWeb | Login</title>

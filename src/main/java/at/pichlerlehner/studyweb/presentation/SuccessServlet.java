@@ -6,15 +6,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class WelcomeServlet extends BaseServlet {
-
+public class SuccessServlet  extends  BaseServlet{
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (!isLoggedIn(request)) {
             response.sendRedirect("/login");
         } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
-            dispatcher.forward(request, response);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/success.jsp");
+            requestDispatcher.forward(request, response);
         }
     }
 
@@ -23,8 +22,8 @@ public class WelcomeServlet extends BaseServlet {
         if (!isLoggedIn(request)) {
             response.sendRedirect("/login");
         } else {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/welcome.jsp");
-            dispatcher.forward(request, response);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/success.jsp");
+            requestDispatcher.forward(request, response);
         }
     }
 }
