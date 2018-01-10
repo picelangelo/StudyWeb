@@ -163,4 +163,19 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
         List<Benutzer> benutzerList = getElementByPreparedStmt(con, preparedStatement);
         return benutzerList.isEmpty() ? Optional.empty() : Optional.of(benutzerList.get(0));
     }
+
+    public Optional<Benutzer> findUserByEmail(Connection con, String email) throws PersistenceException{
+        String query = String.format("SELECT * from %s WHERE %s = ? AND %s = ?", getTableName(), b_email);
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = con.prepareStatement(query);
+            preparedStatement.setString(1, email);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            logger.error("parsing user failed");
+            throw PersistenceException.forSqlException(e);
+        }
+        List<Benutzer> benutzerList = getElementByPreparedStmt(con, preparedStatement);
+        return benutzerList.isEmpty() ? Optional.empty() : Optional.of(benutzerList.get(0));
+    }
 }

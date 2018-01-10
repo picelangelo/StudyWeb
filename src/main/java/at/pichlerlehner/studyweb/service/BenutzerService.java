@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class BenutzerService extends AbstractService<Benutzer>{
-    private BenutzerRepo repository;
 
     public BenutzerService() {
         repository = new BenutzerRepo();
@@ -21,7 +20,7 @@ public class BenutzerService extends AbstractService<Benutzer>{
         passwordSha256 = Ensurer.ensureNotBlank(passwordSha256);
         Optional<Benutzer> user;
         try {
-            user = repository.findUserByEmailAndHashedPassword(connection, email, passwordSha256);
+            user = ((BenutzerRepo)repository).findUserByEmailAndHashedPassword(connection, email, passwordSha256);
         } catch (PersistenceException e) {
             e.printStackTrace();
             logger.error("An error occurred while finding user");
