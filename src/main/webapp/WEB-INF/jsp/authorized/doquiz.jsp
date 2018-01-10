@@ -11,6 +11,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) session.getAttribute("USER");
+    request.setAttribute("username", benutzer.getVorname());
+
     Fragebogen fragebogen = (Fragebogen) session.getAttribute("QUIZ");
     int qnumber = 0;
     ArrayList<Frage> frageArrayList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
@@ -58,7 +60,7 @@
 </div>
 <div class="container">
     <h4 class="indigo-text">
-        Welcome to Studyweb, <%= benutzer.getVorname()%>
+        Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
     <h5>
         Quiz <%= fragebogen.getBezeichnung() %>: Question <%= qnumber %>

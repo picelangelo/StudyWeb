@@ -9,6 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) request.getSession().getAttribute("USER");
+    request.setAttribute("username", benutzer.getVorname());
 
     FragebogenService fragebogenService = new FragebogenService();
     List<Fragebogen> fragebogenList = fragebogenService.findQuizByUserAccess(benutzer);
@@ -38,7 +39,7 @@
 </div>
 <div class="container">
     <h4 class="indigo-text">
-        Welcome to Studyweb, <%= benutzer.getVorname()%>
+        Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
 
     <br/>

@@ -1,8 +1,10 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
 <%@ page import="at.pichlerlehner.studyweb.domain.Fragebogen" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) request.getSession().getAttribute("USER");
+    request.setAttribute("username", benutzer.getVorname());
     Fragebogen fragebogen = (Fragebogen) request.getSession().getAttribute("QUIZ");
 %>
 <html>
@@ -28,7 +30,7 @@
 </div>
 <div class="container">
     <h4 class="indigo-text">
-        Welcome to Studyweb, <%= benutzer.getVorname()%>
+        Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
     <h5>
         Add Questions to <%= fragebogen.getBezeichnung() %>
