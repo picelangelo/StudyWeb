@@ -12,6 +12,8 @@
 
     FragebogenService fragebogenService = new FragebogenService();
     List<Fragebogen> fragebogenList = fragebogenService.findQuizByUserAccess(benutzer);
+
+    request.setAttribute("frageboegen", fragebogenList);
 %>
 <html>
 <head>
@@ -22,27 +24,38 @@
     <link rel="stylesheet" type="text/css" href="../../../css/index.css">
 </head>
 <body>
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper indigo">
+            <div class="container">
+                <a class="brand-logo" href="welcome">Studyweb</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="logout">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
 <div class="container">
     <h4 class="indigo-text">
         Welcome to Studyweb, <%= benutzer.getVorname()%>
     </h4>
-    <table>
-        <tr>
-            <th>Definition</th>
-            <th>Creator</th>
-        </tr>
-        <% for (Fragebogen fragebogen : fragebogenList) { %>
-        <tr>
-            <td><a href=<%="do?quiz=" + fragebogen.getPrimaryKey()%>>
-                <%=fragebogen.getBezeichnung()%>
-            </a>
-            </td>
-            <td><%=fragebogen.getErsteller().getVorname()%> <%=fragebogen.getErsteller().getNachname()%>
-            </td>
-        </tr>
-        <% } %>
-    </table>
 
+    <br/>
+    <div class="collection">
+        <a class="collection-item" href="#!" style="border-bottom: thin solid gray">
+            <span class="badge"><b>Creator</b></span>
+            <b>Title</b>
+        </a>
+        <c:forEach items="${frageboegen}" var="fragebogen">
+            <a href="do?quiz=${fragebogen.primaryKey}" class="collection-item">
+                <span class="badge">${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}</span> ${fragebogen.bezeichnung}
+            </a>
+        </c:forEach>
+    </div>
 </div>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="../../../js/materialize.js"></script>
 </body>
 </html>

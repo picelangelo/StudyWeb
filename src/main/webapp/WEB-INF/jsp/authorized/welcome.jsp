@@ -30,14 +30,53 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <%= benutzer.getVorname()%>
     </h4>
-    <ul>
-        <li>
-            <a href="/new">Create New Quiz</a>
-        </li>
-        <li>
-            <a href="/show">Show Quizzes</a>
-        </li>
-    </ul>
+
+    <div class="col s12 m7">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="https://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>List all quizzes you have access to.</p>
+                </div>
+                <div class="card-action">
+                    <a class="indigo-text" href="/show">show</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m7">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="https://i.imgur.com/2rCQvJ1.png">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>Create a new Quiz!</p>
+                </div>
+                <div class="card-action">
+                    <a class="indigo-text" href="/new">create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col s12 m7">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="https://lorempixel.com/100/190/nature/6">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>Edit a Quiz!</p>
+                </div>
+                <div class="card-action">
+                    <a class="indigo-text" href="#!">edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
