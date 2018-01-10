@@ -6,16 +6,33 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Frage" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="at.pichlerlehner.studyweb.domain.Antwort" %>
+<%@ page import="java.util.stream.Collectors" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) session.getAttribute("USER");
     Fragebogen fragebogen = (Fragebogen) session.getAttribute("QUIZ");
+    int qnumber = 0;
     ArrayList<Frage> frageArrayList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
-    Frage frage = frageArrayList.get(0);
+    if (Objects.nonNull(request.getParameter("question"))) {
+        qnumber = Integer.parseInt(request.getParameter("question"));
+    }
+    Frage frage = frageArrayList.get(qnumber);
     ArrayList<Antwort> antworten = (ArrayList<Antwort>) session.getAttribute("ANSWERS");
+    antworten = new ArrayList<>(antworten.stream().filter(x -> x.getFrage().getPrimaryKey() == frage.getPrimaryKey()).collect(Collectors.toList()));
     request.setAttribute("fragen", frageArrayList);
+    request.setAttribute("frage", frage);
     request.setAttribute("antworten", antworten);
     request.setAttribute("mulChoice", frage.isMultipleChoice());
+    String prevDisabled = "";
+    String nextDisabled = "";
+    String finDisabled = "disabled: disabled";
+    if (qnumber == 0) {
+        prevDisabled = "disabled: disabled";
+    } else if (qnumber == frageArrayList.size() - 1) {
+        nextDisabled = "disabled: disabled";
+        finDisabled = "";
+    }
 %>
 <html>
 <head>
@@ -68,15 +85,30 @@
 
         <div class="row" style="margin: auto;">
             <c:forEach begin="0" end="${fragen.size()-1}" var="counter">
-                <div class="col s1" style="background-color: #3d5afe; margin: 1px; border: thin solid black">
+                <div class="col s1" id="q${counter}" style="background-color: #3d5afe; margin: 1px; border: thin solid black">
                     &nbsp;&nbsp;&nbsp;
                 </div>
             </c:forEach>
+            <script>
+                <%= "var qnumber = \"q" + qnumber + "\"" %>
+                document.getElementById(qnumber).style.backgroundColor = "green";
+            </script>
         </div>
         <br/>
         <div class="row">
-            <button type="submit" name="btn_submit" class="col s1 btn btn-large waves-effect indigo" style="margin: 5px">Previous</button>
-            <button type="submit" name="btn_submit" class="col s1 btn btn-large waves-effect indigo" style="margin: 5px">Next</button>
+            <a <%= prevDisabled %> href="/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber-1%>"
+                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
+                    style="margin: 5px">Previous
+            </a>
+            <a <%= nextDisabled %> href="/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber+1%>"
+                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
+                    style="margin: 5px">Next
+            </a>
+            <button <%= finDisabled %>
+                    type="submit"
+                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
+                    style="margin: 5px">Finished
+            </button>
         </div>
     </form>
 
