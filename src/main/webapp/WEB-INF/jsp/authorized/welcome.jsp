@@ -34,7 +34,7 @@
     <div class="col s12 m7">
         <div class="card horizontal">
             <div class="card-image">
-                <img src="https://lorempixel.com/100/190/nature/6">
+                <img src="https://i.imgur.com/7Y3Xkgf.png">
             </div>
             <div class="card-stacked">
                 <div class="card-content">
@@ -64,7 +64,7 @@
     <div class="col s12 m7">
         <div class="card horizontal">
             <div class="card-image">
-                <img src="https://lorempixel.com/100/190/nature/6">
+                <img src="https://i.imgur.com/OnGno8d.png">
             </div>
             <div class="card-stacked">
                 <div class="card-content">
