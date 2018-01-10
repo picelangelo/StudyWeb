@@ -7,6 +7,7 @@
     String successMessage = "";
     if (Objects.nonNull(request.getSession().getAttribute("SUCCESS"))) {
         successMessage = (String) request.getSession().getAttribute("SUCCESS");
+        session.removeAttribute("SUCCESS");
     }
 %>
 <html>

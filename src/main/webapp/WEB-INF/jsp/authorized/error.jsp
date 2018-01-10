@@ -7,6 +7,7 @@
     String errorMessage = "";
     if (Objects.nonNull(request.getSession().getAttribute("ERROR"))) {
         errorMessage = (String) request.getSession().getAttribute("ERROR");
+        session.removeAttribute("ERROR");
     }
 %>
 <html>
