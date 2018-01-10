@@ -33,7 +33,8 @@
         Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
     <h5>
-        Add Questions to <%= fragebogen.getBezeichnung() %>
+        <% request.setAttribute("quizBezeichnung", fragebogen.getBezeichnung()); %>
+        Add Questions to <c:out value="${quizBezeichnung}"/>
     </h5>
     <form id="new-quiz-form" method="post" action="/addquestion">
         <div class="input-field col s12">

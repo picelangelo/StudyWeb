@@ -41,7 +41,8 @@
         <b>
             Success!
         </b>
-        <%= successMessage %>
+        <% request.setAttribute("success", successMessage); %>
+        <c:out value="${success}"/>
     </p>
 </div>
 

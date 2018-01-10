@@ -55,8 +55,8 @@
         </c:if>
         <c:forEach items="${frageboegen}" var="fragebogen">
             <a href="do?quiz=${fragebogen.primaryKey}" class="collection-item">
-                <span class="badge">${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}</span>
-                ${fragebogen.bezeichnung}
+                <span class="badge"><c:out value="${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}"/></span>
+                <c:out value="${fragebogen.bezeichnung}"/>
             </a>
         </c:forEach>
     </div>

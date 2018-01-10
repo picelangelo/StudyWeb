@@ -42,7 +42,8 @@
         <b>
             Error!
         </b>
-        <%= errorMessage %>
+        <% request.setAttribute("error", errorMessage); %>
+        <c:out value="${error}"/>
     </p>
 </div>
 </body>
