@@ -9,11 +9,9 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
 
-public class BenutzerService extends AbstractService<Benutzer>{
-    private BenutzerRepo repository;
-
+public class BenutzerService extends AbstractService<Benutzer> {
     public BenutzerService() {
-        repository = new BenutzerRepo();
+        this.repository = new BenutzerRepo();
     }
 
     public Optional<Benutzer> authorize(String email, String passwordSha256) {
@@ -21,7 +19,7 @@ public class BenutzerService extends AbstractService<Benutzer>{
         passwordSha256 = Ensurer.ensureNotBlank(passwordSha256);
         Optional<Benutzer> user;
         try {
-            user = repository.findUserByEmailAndHashedPassword(connection, email, passwordSha256);
+            user = ((BenutzerRepo)repository).findUserByEmailAndHashedPassword(connection, email, passwordSha256);
         } catch (PersistenceException e) {
             e.printStackTrace();
             logger.error("An error occurred while finding user");
@@ -30,9 +28,9 @@ public class BenutzerService extends AbstractService<Benutzer>{
         return user;
     }
 
-    public List<Benutzer> findByEmail(){
+    public List<Benutzer> findByEmail() {
         return null;
     }
 
-    
+
 }

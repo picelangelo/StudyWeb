@@ -18,6 +18,8 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     private String b_fragebogen = "Fragebogen_Id";
     private String b_rechte = "Darf_bearbeiten";
 
+    public BerechtigungRepo() {}
+
     @Override
     public long insert(Connection con, Berechtigung entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s,%s) VALUES(?,?,?,?)", table_name, vers,b_user, b_fragebogen, b_rechte);

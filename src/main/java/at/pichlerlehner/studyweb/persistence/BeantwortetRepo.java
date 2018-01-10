@@ -18,6 +18,7 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
     private String ba_richtig = "Anzahl_richtig";
     private String ba_falsch = "Anzahl_falsch";
 
+    public BeantwortetRepo() {}
 
     @Override
     public long insert(Connection con, Beantwortet entity) throws PersistenceException {

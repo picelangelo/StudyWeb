@@ -17,6 +17,8 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     private String fb_creator = "User_Id";
     private String fb_bezeichnung = "Bezeichnung";
 
+    public FragebogenRepo() {}
+
     @Override
     public long insert(Connection con, Fragebogen entity) throws PersistenceException {
         String query = String.format("INSERT INTO %s(%s,%s,%s) VALUES(?,?,?)", table_name, vers, fb_bezeichnung, fb_creator);

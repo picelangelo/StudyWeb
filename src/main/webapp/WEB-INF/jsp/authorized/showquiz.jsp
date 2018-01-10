@@ -33,7 +33,7 @@
         </tr>
         <% for (Fragebogen fragebogen : fragebogenList) { %>
         <tr>
-            <td><a href=<%="do?=" + fragebogen.getErsteller().getPrimaryKey()%>>
+            <td><a href=<%="do?quiz=" + fragebogen.getPrimaryKey()%>>
                 <%=fragebogen.getBezeichnung()%>
             </a>
             </td>

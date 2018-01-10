@@ -23,6 +23,7 @@ INSERT INTO `studywebdb`.`frage`
 VALUES
 (0, 1, 'TESTFRAGE', false);
 
+/*
 INSERT INTO `studywebdb`.`berechtigt`
 (`Version`,
 `User_Id`,
@@ -30,6 +31,7 @@ INSERT INTO `studywebdb`.`berechtigt`
 `Darf_bearbeiten`)
 VALUES
 (0, 1, 1, true);
+*/
 
 INSERT INTO `studywebdb`.`antwort`
 (`Version`,

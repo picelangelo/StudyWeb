@@ -20,6 +20,8 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     String vers = "Version";
     final Logger logger = LoggerFactory.getLogger(getClass());
 
+    AbstractJdbcRepo(){}
+
     @Override
     public long save(Connection con, DOMAIN entity) throws PersistenceException {
         try {

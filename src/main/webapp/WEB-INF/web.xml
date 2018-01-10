@@ -2,8 +2,10 @@
  "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-<web-app>
-  <display-name>Archetype Created Web Application</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">  <display-name>Archetype Created Web Application</display-name>
   
   <servlet>
     <servlet-name>Login</servlet-name>
@@ -34,8 +36,16 @@
     <servlet-class>at.pichlerlehner.studyweb.presentation.SuccessServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>Error</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ErrorServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>Show</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.ShowQuizServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DoQuiz</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.DoQuizServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -71,7 +81,15 @@
     <url-pattern>/success</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>Error</servlet-name>
+    <url-pattern>/error</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>Show</servlet-name>
     <url-pattern>/show</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DoQuiz</servlet-name>
+    <url-pattern>/do</url-pattern>
   </servlet-mapping>
 </web-app>

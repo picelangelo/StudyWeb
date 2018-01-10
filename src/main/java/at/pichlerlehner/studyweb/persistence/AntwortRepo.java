@@ -17,6 +17,8 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
     private String a_antwort = "Antwort";
     private String a_correct = "IsCorrect";
 
+    public AntwortRepo() {}
+
     @Override
     protected List<Antwort> parseResultSet(Connection con, ResultSet resultSet) throws PersistenceException {
         List<Antwort> antwortList = new ArrayList<>();
@@ -142,5 +144,19 @@ public class AntwortRepo extends AbstractJdbcRepo<Antwort> {
     @Override
     protected String getPrimaryKeyColumnName() {
         return primary_key;
+    }
+
+
+    public List<Antwort> getAntwortenByFrage(Connection connection, Long frage) throws PersistenceException {
+        return getElementByLongColumn(connection, a_frage, frage);
+    }
+
+    public List<Antwort> getAntwortenByFragebogen(Connection connection, Long fragebogen) throws PersistenceException {
+        List<Antwort> antwortList = new ArrayList<>();
+        FrageRepo frageRepo = new FrageRepo();
+        for ( Frage frage : frageRepo.getFragenByFragebogen(connection, fragebogen)) {
+            antwortList.addAll(getAntwortenByFrage(connection, frage.getPrimaryKey()));
+        }
+        return antwortList;
     }
 }

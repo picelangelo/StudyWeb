@@ -1,11 +1,17 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) request.getSession().getAttribute("USER");
+
+    String errorMessage = "";
+    if (Objects.nonNull(request.getSession().getAttribute("ERROR"))) {
+        errorMessage = (String) request.getSession().getAttribute("ERROR");
+    }
 %>
 <html>
 <head>
-    <title>StudyWeb | Welcome</title>
+    <title>StudyWeb | Success</title>
     <link rel="shortcut icon" type="image/x-icon" href="../../../images/logo.PNG">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../../../css/materialize.css">
@@ -16,17 +22,12 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <%= benutzer.getVorname()%>
     </h4>
-    <ul>
-        <li>
-            <a href="/new">Create New Quiz</a>
-        </li>
-        <li>
-            <a href="/show">Show Quizzes</a>
-        </li>
-    </ul>
+    <p>
+        <b>
+            Error!
+        </b>
+        <%= errorMessage %>
+    </p>
 </div>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-<script type="text/javascript" src="../../../js/materialize.js"></script>
 </body>
 </html>

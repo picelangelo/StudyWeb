@@ -145,4 +145,8 @@ public class FrageRepo extends AbstractJdbcRepo<Frage> {
             throw PersistenceException.forSqlException(e);
         }
     }
+
+    public List<Frage> getFragenByFragebogen(Connection connection, Long fragebogen) throws PersistenceException {
+        return getElementByLongColumn(connection, f_fragebogen, fragebogen);
+    }
 }

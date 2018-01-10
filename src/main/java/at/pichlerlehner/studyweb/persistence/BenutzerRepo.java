@@ -18,6 +18,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     private String b_vorname = "Vorname";
     private String b_nachname = "Nachname";
 
+    public BenutzerRepo() {}
 
     @Override
     public long insert(Connection con, Benutzer entity) throws PersistenceException {
