@@ -19,12 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Project: StudyWeb
- * Document: DoQuizServlet.java
- * Author: Philip
- * Created: 09.01.2018
- */
 public class DoQuizServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +61,11 @@ public class DoQuizServlet extends BaseServlet {
         if (!isLoggedIn(request)) {
             response.sendRedirect("/login");
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/success.jsp");
+
+
+
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/doquiz.jsp");
             requestDispatcher.forward(request, response);
         }
     }

@@ -47,9 +47,15 @@
             <span class="badge"><b>Creator</b></span>
             <b>Title</b>
         </a>
+        <c:if test="${frageboegen.size() == 0}">
+            <a href="#!" class="collection-item">
+                No quizzes yet!
+            </a>
+        </c:if>
         <c:forEach items="${frageboegen}" var="fragebogen">
             <a href="do?quiz=${fragebogen.primaryKey}" class="collection-item">
-                <span class="badge">${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}</span> ${fragebogen.bezeichnung}
+                <span class="badge">${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}</span>
+                ${fragebogen.bezeichnung}
             </a>
         </c:forEach>
     </div>

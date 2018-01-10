@@ -68,7 +68,7 @@
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <p>Edit a Quiz!</p>
+                    <p>Edit a Quiz.</p>
                 </div>
                 <div class="card-action">
                     <a class="indigo-text" href="#!">edit</a>
