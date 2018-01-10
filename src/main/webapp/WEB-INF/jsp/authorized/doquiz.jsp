@@ -61,12 +61,12 @@
         Welcome to Studyweb, <%= benutzer.getVorname()%>
     </h4>
     <h5>
-        Quiz <%= fragebogen.getBezeichnung() %>: Question 1
+        Quiz <%= fragebogen.getBezeichnung() %>: Question <%= qnumber %>
     </h5>
     <p>
         <%= frage.getFrage()%>
     </p>
-    <form method="post" action="/do">
+    <form id="quizForm" method="post" action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>">
         <c:if test="${mulChoice == true}">
             <c:forEach begin="0" end="${antworten.size()-1}" var="counter">
                 <p>
@@ -86,24 +86,24 @@
         <div class="row" style="margin: auto;">
             <c:forEach begin="0" end="${fragen.size()-1}" var="counter">
                 <div class="col s1" id="q${counter}" style="background-color: #3d5afe; margin: 1px; border: thin solid black">
-                    &nbsp;&nbsp;&nbsp;
+                    &nbsp;
                 </div>
             </c:forEach>
             <script>
                 <%= "var qnumber = \"q" + qnumber + "\"" %>
-                document.getElementById(qnumber).style.backgroundColor = "green";
+                document.getElementById(qnumber).style.backgroundColor = "white";
             </script>
         </div>
         <br/>
         <div class="row">
-            <a <%= prevDisabled %> href="/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber-1%>"
+            <button <%= prevDisabled %> onclick="setActionPrev()"
                     name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
                     style="margin: 5px">Previous
-            </a>
-            <a <%= nextDisabled %> href="/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber+1%>"
+            </button>
+            <button <%= nextDisabled %> onclick="setActionNext()"
                     name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
                     style="margin: 5px">Next
-            </a>
+            </button>
             <button <%= finDisabled %>
                     type="submit"
                     name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
@@ -112,6 +112,14 @@
         </div>
     </form>
 
+    <script>
+        function setActionNext() {
+            document.getElementById("quizForm").action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber + 1%>"
+        }
+        function setActionPrev() {
+            document.getElementById("quizForm").action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber - 1%>"
+        }
+    </script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="../../../js/materialize.js"></script>
 </div>
