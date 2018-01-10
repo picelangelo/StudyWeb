@@ -47,6 +47,10 @@
     <servlet-name>DoQuiz</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.DoQuizServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Solitaire</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.BreakServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -91,5 +95,9 @@
   <servlet-mapping>
     <servlet-name>DoQuiz</servlet-name>
     <url-pattern>/do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Solitaire</servlet-name>
+    <url-pattern>/break</url-pattern>
   </servlet-mapping>
 </web-app>

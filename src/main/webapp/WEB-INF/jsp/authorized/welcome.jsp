@@ -76,6 +76,21 @@
             </div>
         </div>
     </div>
+    <div class="col s12 m7">
+        <div class="card horizontal">
+            <div class="card-image">
+                <img src="https://i.imgur.com/8mIuYq9.png">
+            </div>
+            <div class="card-stacked">
+                <div class="card-content">
+                    <p>Take a break!</p>
+                </div>
+                <div class="card-action">
+                    <a class="indigo-text" href="/break">procrastinate</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
