@@ -33,7 +33,7 @@
     <br/>
     <form method="post" action="/new">
         <div class="input-field col s12">
-            <input name="quiz-title" id="quiz-title" type="text">
+            <input name="quiz-title" id="quiz-title" type="text" required>
             <label for="quiz-title" class="">Quiz-title</label>
             <button type="submit" class="col s12 btn btn-large waves-effect indigo">Add questions</button>
         </div>
