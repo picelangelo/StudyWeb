@@ -60,7 +60,7 @@ public class AddQuestionServlet extends BaseServlet {
                 Antwort a4 = new Antwort(request.getParameter("answer4"), correctAnswer.equals("cora4"), frage);
                 antworten.addAll(Arrays.asList(a1, a2, a3, a4));
             } else {
-                Antwort a1 = new Antwort(request.getParameter("text-answer").toLowerCase(), true, frage);
+                Antwort a1 = new Antwort(request.getParameter("text-answer"), true, frage);
                 antworten.add(a1);
             }
 

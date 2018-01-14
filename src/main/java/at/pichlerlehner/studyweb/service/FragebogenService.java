@@ -5,6 +5,7 @@ import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.persistence.FragebogenRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FragebogenService extends AbstractService<Fragebogen> {
 
@@ -25,4 +26,9 @@ public class FragebogenService extends AbstractService<Fragebogen> {
         }
     }
 
+    public Boolean userHasAccess( Fragebogen fragebogen, Benutzer benutzer) {
+        List<Fragebogen> fragebogenList = findQuizByUserAccess(benutzer);
+        fragebogenList = fragebogenList.stream().filter(x -> x.getPrimaryKey().equals(fragebogen.getPrimaryKey())).collect(Collectors.toList());
+        return !fragebogenList.isEmpty();
+    }
 }

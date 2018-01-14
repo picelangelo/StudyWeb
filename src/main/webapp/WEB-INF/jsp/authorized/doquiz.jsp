@@ -8,12 +8,19 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Antwort" %>
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="at.pichlerlehner.studyweb.service.FragebogenService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) session.getAttribute("USER");
     request.setAttribute("username", benutzer.getVorname());
-
     Fragebogen fragebogen = (Fragebogen) session.getAttribute("QUIZ");
+
+    FragebogenService fragebogenService = new FragebogenService();
+    if (!fragebogenService.userHasAccess(fragebogen, benutzer)) {
+        response.sendError(401, "You are not authorized to view this quiz!");
+        return;
+    }
+
     int qnumber = 0;
     ArrayList<Frage> frageArrayList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
     if (Objects.nonNull(request.getParameter("question"))) {
@@ -39,7 +46,8 @@
     String finDisabled = "disabled: disabled";
     if (qnumber == 0) {
         prevDisabled = "disabled: disabled";
-    } else if (qnumber == frageArrayList.size() - 1) {
+    }
+    if (qnumber == (frageArrayList.size() - 1)) {
         nextDisabled = "disabled: disabled";
         finDisabled = "";
     }
@@ -86,7 +94,7 @@
         <c:if test="${mulChoice == true}">
             <c:forEach begin="0" end="${antworten.size()-1}" var="counter">
                 <p>
-                    <input name="answers" type="radio" id="cora${counter}" class="answers" required/>
+                    <input name="answers" type="radio" id="cora${counter}"  value="${antworten.get(counter).antwort}" class="answers" required/>
                     <label for="cora${counter}"><c:out value="${antworten.get(counter).antwort}"/></label>
                 </p>
             </c:forEach>
@@ -124,6 +132,7 @@
                                         style="margin: 5px">Next
             </button>
             <button <%= finDisabled %>
+                    onclick="setActionNext()"
                     value="finished"
                     type="submit"
                     name="submit" class="col s1 btn btn-large waves-effect indigo"

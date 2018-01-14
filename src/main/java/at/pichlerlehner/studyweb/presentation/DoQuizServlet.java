@@ -1,10 +1,9 @@
 package at.pichlerlehner.studyweb.presentation;
 
-import at.pichlerlehner.studyweb.domain.Antwort;
-import at.pichlerlehner.studyweb.domain.Frage;
-import at.pichlerlehner.studyweb.domain.Fragebogen;
+import at.pichlerlehner.studyweb.domain.*;
 import at.pichlerlehner.studyweb.persistence.FrageRepo;
 import at.pichlerlehner.studyweb.service.AntwortService;
+import at.pichlerlehner.studyweb.service.BeantwortetService;
 import at.pichlerlehner.studyweb.service.FrageService;
 import at.pichlerlehner.studyweb.service.FragebogenService;
 import org.opendof.core.oal.DOFRequest;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DoQuizServlet extends BaseServlet {
     @Override
@@ -34,6 +34,12 @@ public class DoQuizServlet extends BaseServlet {
                 Fragebogen fragebogen;
                 if (fragebogenService.findEntityById(quizPK).isPresent()) {
                     fragebogen = fragebogenService.findEntityById(quizPK).get();
+
+                    if (!fragebogenService.userHasAccess(fragebogen, (Benutzer) session.getAttribute("USER"))) {
+                        response.sendError(401, "You are not authorized to view this quiz!");
+                        return;
+                    }
+
                     session.setAttribute("QUIZ", fragebogen);
 
                     ArrayList<Frage> frageArrayList;
@@ -61,16 +67,18 @@ public class DoQuizServlet extends BaseServlet {
         } else {
             HttpSession session = request.getSession();
             if (!request.getParameter("submit").equals("previous")) {
-                Integer parsedValue = request.getParameter("question") != null ? Integer.parseInt(request.getParameter("question")) : null;
-                Optional<Integer> optQNumber = Optional.ofNullable(parsedValue);
-                Integer qNumber = optQNumber.orElse(0);
+                if (Objects.isNull(request.getParameter("question"))) {
+                    session.setAttribute("ERROR", "No question chosen");
+                    response.sendRedirect("/error");
+                    return;
+                }
+
+                Integer qNumber = Integer.parseInt(request.getParameter("question"));
+                qNumber--;
+
                 if (Objects.nonNull(session.getAttribute("QUESTIONS"))) {
                     Optional<Object> nullableObject = Optional.ofNullable(session.getAttribute("ANSWERHM"));
                     HashMap<Integer, String> answerHashMap = nullableObject.isPresent() ? (HashMap<Integer, String>) nullableObject.get() : new HashMap<>();
-
-                    //Bei Frage 0 auf jedenfall eine neue HashMap erstellen
-                    if (qNumber == 0)
-                        answerHashMap = new HashMap<>();
 
                     if (Objects.nonNull(request.getParameter("answers"))) {
                         answerHashMap.put(qNumber, request.getParameter("answers"));
@@ -78,12 +86,33 @@ public class DoQuizServlet extends BaseServlet {
                         answerHashMap.put(qNumber, request.getParameter("your-answer"));
                     }
 
-                    session.setAttribute("USERANSWERS", answerHashMap);
+                    session.setAttribute("ANSWERHM", answerHashMap);
 
                     if (!request.getParameter("submit").equals("finished")) {
                         RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/jsp/authorized/doquiz.jsp");
                         requestDispatcher.forward(request, response);
                     } else {
+                        ArrayList<Frage> frageArrayList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
+                        ArrayList<Antwort> richtigeAntworten = new ArrayList<>(((ArrayList<Antwort>) session.getAttribute("ANSWERS")).stream().filter(x -> x.isCorrect()).collect(Collectors.toList()));
+                        session.setAttribute("CORRECTANSWERS", richtigeAntworten);
+
+                        if (frageArrayList.size() != answerHashMap.size()) {
+                            session.setAttribute("ERROR", "You have to answer every question");
+                            response.sendRedirect("/error");
+                            return;
+                        }
+                        if (richtigeAntworten.size() != answerHashMap.size()) {
+                            session.setAttribute("ERROR", "internal error");
+                            response.sendRedirect("/error");
+                            return;
+                        }
+                        BeantwortetService beantwortetService = new BeantwortetService();
+                        Benutzer benutzer = (Benutzer) session.getAttribute("USER");
+
+                        for (int i = 0; i < frageArrayList.size(); i++) {
+                            boolean check = richtigeAntworten.get(i).getAntwort().toLowerCase().equals(answerHashMap.get(i).toLowerCase());
+                            beantwortetService.newBeantwortet(benutzer, frageArrayList.get(i), check);
+                        }
                         response.sendRedirect("/result");
                     }
                 } else {
