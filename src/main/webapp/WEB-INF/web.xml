@@ -55,6 +55,14 @@
     <servlet-name>Result</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.ResultServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Profile</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ProfileServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Password</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.PasswordServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -107,5 +115,13 @@
   <servlet-mapping>
     <servlet-name>Result</servlet-name>
     <url-pattern>/result</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Profile</servlet-name>
+    <url-pattern>/profile</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Password</servlet-name>
+    <url-pattern>/password</url-pattern>
   </servlet-mapping>
 </web-app>

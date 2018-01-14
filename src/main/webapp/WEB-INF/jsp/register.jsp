@@ -36,13 +36,13 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <input name="firstname" id="firstname" type="text" required>
-                        <label for="firstname">Enter your Firstname</label>
+                        <label for="firstname">Enter your first name</label>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
                         <input name="lastname" id="lastname" type="text" required>
-                        <label for="lastname">Enter your Lastname</label>
+                        <label for="lastname">Enter your last name</label>
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +60,7 @@
                 <div class="row">
                     <div class="input-field col s12">
                         <input class="validate" name="password2" id="password2" type="password" required>
-                        <label for="password2" class="">Repeate your password</label>
+                        <label for="password2" class="">Repeat your password</label>
                     </div>
                 </div>
 
