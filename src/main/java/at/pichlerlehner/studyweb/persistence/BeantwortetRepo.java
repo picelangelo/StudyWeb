@@ -154,6 +154,11 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
         }
     }
 
+    public Optional<Beantwortet> getBeantwortetByUserAndQuestion(Connection connection, Long userId, Long questionId) throws PersistenceException {
+        List<Beantwortet> user = getElementByLongColumn(connection, ba_user, userId);
+        return user.stream().filter(x -> x.getFrage().getPrimaryKey().equals(questionId)).findFirst();
+    }
+
 
     @Override
     protected String getTableName() {

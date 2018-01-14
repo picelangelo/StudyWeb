@@ -38,7 +38,7 @@
     </h5>
     <form id="new-quiz-form" method="post" action="/addquestion">
         <div class="input-field col s12">
-            <input name="frage-name" id="frage-name" type="text">
+            <input name="frage-name" id="frage-name" type="text" required>
             <label for="frage-name" class="">Question</label>
         </div>
         <br/>
@@ -47,40 +47,53 @@
             <label for="multiple-choice">Multiple-Choice</label>
         </p>
         <div id="multiple-choice-div">
-            <p>
-                Correct answer:
-            </p>
-            <p>
-                <input name="group1" type="radio" id="cora1" value="cora1"/>
-                <label for="cora1">Answer 1</label>
-            </p>
-            <p>
-                <input name="group1" type="radio" id="cora2" value="cora2"/>
-                <label for="cora2">Answer 2</label>
-            </p>
-            <p>
-                <input name="group1" type="radio" id="cora3" value="cora3"/>
-                <label for="cora3">Answer 3</label>
-            </p>
-            <p>
-                <input name="group1" type="radio" id="cora4" value="cora4"/>
-                <label for="cora4">Answer 4</label>
-            </p>
-            <div class="input-field col s12">
-                <input name="answer1" id="answer1" type="text">
-                <label for="answer1" class="">Answer 1</label>
+            <div class="row">
+                <div class="input-field col s11">
+                    <input name="answer1" id="answer1" type="text" class="mcAnswer">
+                    <label for="answer1" class="">Answer 1</label>
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input name="group1" type="radio" id="cora1" value="cora1"/>
+                        <label for="cora1">Correct</label>
+                    </p>
+                </div>
             </div>
-            <div class="input-field col s12">
-                <input name="answer2" id="answer2" type="text">
-                <label for="answer2" class="">Answer 2</label>
+            <div class="row">
+                <div class="input-field col s11">
+                    <input name="answer2" id="answer2" type="text" class="mcAnswer">
+                    <label for="answer2" class="">Answer 2</label>
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input name="group1" type="radio" id="cora2" value="cora2"/>
+                        <label for="cora2">Correct</label>
+                    </p>
+                </div>
             </div>
-            <div class="input-field col s12">
-                <input name="answer3" id="answer3" type="text">
-                <label for="answer3" class="">Answer 3</label>
+            <div class="row">
+                <div class="input-field col s11">
+                    <input name="answer3" id="answer3" type="text" class="mcAnswer">
+                    <label for="answer3" class="">Answer 3</label>
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input name="group1" type="radio" id="cora3" value="cora3"/>
+                        <label for="cora3">Correct</label>
+                    </p>
+                </div>
             </div>
-            <div class="input-field col s12">
-                <input name="answer4" id="answer4" type="text">
-                <label for="answer4" class="">Answer 4</label>
+            <div class="row">
+                <div class="input-field col s11">
+                    <input name="answer4" id="answer4" type="text" class="mcAnswer">
+                    <label for="answer4" class="">Answer 4</label>
+                </div>
+                <div class="col s1">
+                    <p>
+                        <input name="group1" type="radio" id="cora4" value="cora4"/>
+                        <label for="cora4">Correct</label>
+                    </p>
+                </div>
             </div>
         </div>
         <div id="text-choice-div">
@@ -88,8 +101,12 @@
             <label for="text-answer" class="">Correct Answer</label>
         </div>
         <br/>
-        <button type="submit" name="submit" value="another" class="col s12 btn btn-large waves-effect indigo">Another Question</button>
-        <button type="submit" name="submit" value="finished" class="col s12 btn btn-large waves-effect indigo">Finished</button>
+        <button type="submit" name="submit" value="another" class="col s12 btn btn-large waves-effect indigo">Another
+            Question
+        </button>
+        <button type="submit" name="submit" value="finished" class="col s12 btn btn-large waves-effect indigo">
+            Finished
+        </button>
     </form>
     <br/>
 </div>
@@ -101,13 +118,22 @@
 <script>
     $(document).ready(function () {
         $('#text-choice-div').css("display", "none");
+        $('.mcAnswer').prop('required', true);
+        $('#text-answer').prop('required', false);
+        $('#cora1').prop('required', true);
         $('#multiple-choice').change(function () {
             if ($(this).is(':checked')) {
                 $('#multiple-choice-div').css("display", "block");
                 $('#text-choice-div').css("display", "none");
+                $('.mcAnswer').prop('required', true);
+                $('#text-answer').prop('required', false);
+                $('#cora1').prop('required', true);
             } else {
                 $('#multiple-choice-div').css("display", "none");
                 $('#text-choice-div').css("display", "block");
+                $('.mcAnswer').prop('required', false);
+                $('#text-answer').prop('required', true);
+                $('#cora1').prop('required', false);
             }
         });
     });

@@ -51,6 +51,10 @@
     <servlet-name>Solitaire</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.BreakServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Result</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ResultServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -99,5 +103,9 @@
   <servlet-mapping>
     <servlet-name>Solitaire</servlet-name>
     <url-pattern>/break</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Result</servlet-name>
+    <url-pattern>/result</url-pattern>
   </servlet-mapping>
 </web-app>

@@ -8,16 +8,31 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Antwort" %>
 <%@ page import="java.util.stream.Collectors" %>
 <%@ page import="java.util.Objects" %>
+<%@ page import="at.pichlerlehner.studyweb.service.FragebogenService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) session.getAttribute("USER");
     request.setAttribute("username", benutzer.getVorname());
-
     Fragebogen fragebogen = (Fragebogen) session.getAttribute("QUIZ");
+
+    FragebogenService fragebogenService = new FragebogenService();
+    if (!fragebogenService.userHasAccess(fragebogen, benutzer)) {
+        response.sendError(401, "You are not authorized to view this quiz!");
+        return;
+    }
+
     int qnumber = 0;
     ArrayList<Frage> frageArrayList = (ArrayList<Frage>) session.getAttribute("QUESTIONS");
     if (Objects.nonNull(request.getParameter("question"))) {
-        qnumber = Integer.parseInt(request.getParameter("question"));
+        try {
+            qnumber = Integer.parseInt(request.getParameter("question"));
+            if (qnumber < 0 || qnumber >= frageArrayList.size())
+                throw new IndexOutOfBoundsException();
+        } catch (Exception e) {
+            session.setAttribute("ERROR", "No valid question!");
+            response.sendRedirect("/error");
+            return;
+        }
     }
     Frage frage = frageArrayList.get(qnumber);
     ArrayList<Antwort> antworten = (ArrayList<Antwort>) session.getAttribute("ANSWERS");
@@ -31,10 +46,12 @@
     String finDisabled = "disabled: disabled";
     if (qnumber == 0) {
         prevDisabled = "disabled: disabled";
-    } else if (qnumber == frageArrayList.size() - 1) {
+    }
+    if (qnumber == (frageArrayList.size() - 1)) {
         nextDisabled = "disabled: disabled";
         finDisabled = "";
     }
+    request.setAttribute("testRP", "test");
 %>
 <html>
 <head>
@@ -73,11 +90,11 @@
         <% request.setAttribute("frageString", frage.getFrage());%>
         <c:out value="${frageString}"/>
     </p>
-    <form id="quizForm" method="post" action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>">
+    <form id="quizForm" method="post" action="/do?quiz=<%=fragebogen.getPrimaryKey()%>">
         <c:if test="${mulChoice == true}">
             <c:forEach begin="0" end="${antworten.size()-1}" var="counter">
                 <p>
-                    <input name="answers" type="radio" id="cora${counter}"/>
+                    <input name="answers" type="radio" id="cora${counter}"  value="${antworten.get(counter).antwort}" class="answers" required/>
                     <label for="cora${counter}"><c:out value="${antworten.get(counter).antwort}"/></label>
                 </p>
             </c:forEach>
@@ -85,14 +102,15 @@
         <br/>
         <c:if test="${mulChoice == false}">
             <div class="input-field col s12">
-                <input class="validate" name="your-answer" id="your-answer" type="text">
+                <input class="validate answers" name="your-answer" id="your-answer" type="text" required/>
                 <label for="your-answer" class="">Your Answer</label>
             </div>
         </c:if>
 
         <div class="row" style="margin: auto;">
             <c:forEach begin="0" end="${fragen.size()-1}" var="counter">
-                <div class="col s1" id="q${counter}" style="background-color: #3d5afe; margin: 1px; border: thin solid black">
+                <div class="col s1" id="q${counter}"
+                     style="background-color: #3d5afe; margin: 1px; border: thin solid black">
                     &nbsp;
                 </div>
             </c:forEach>
@@ -104,16 +122,20 @@
         <br/>
         <div class="row">
             <button <%= prevDisabled %> onclick="setActionPrev()"
-                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
-                    style="margin: 5px">Previous
+                                        value="previous"
+                                        name="submit" class="col s1 btn btn-large waves-effect indigo"
+                                        style="margin: 5px">Previous
             </button>
             <button <%= nextDisabled %> onclick="setActionNext()"
-                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
-                    style="margin: 5px">Next
+                                        value="next"
+                                        name="submit" class="col s1 btn btn-large waves-effect indigo"
+                                        style="margin: 5px">Next
             </button>
             <button <%= finDisabled %>
+                    onclick="setActionNext()"
+                    value="finished"
                     type="submit"
-                    name="btn_submit" class="col s1 btn btn-large waves-effect indigo"
+                    name="submit" class="col s1 btn btn-large waves-effect indigo"
                     style="margin: 5px">Finished
             </button>
         </div>
@@ -123,7 +145,9 @@
         function setActionNext() {
             document.getElementById("quizForm").action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber + 1%>"
         }
+
         function setActionPrev() {
+            $('.answers').prop('required', false);
             document.getElementById("quizForm").action = "/do?quiz=<%=fragebogen.getPrimaryKey()%>&question=<%=qnumber - 1%>"
         }
     </script>
