@@ -31,13 +31,19 @@
         <div class="nav-wrapper indigo">
             <div class="container">
                 <a class="brand-logo" href="welcome">Studyweb</a>
+                <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="profile">Profile</a></li>
                     <li><a href="logout">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 </div>
+<ul id="mobile-demo" class="side-nav">
+    <li><a href="profile">Profile</a></li>
+    <li><a href="logout">Logout</a></li>
+</ul>
 <div class="container">
     <h4 class="indigo-text">
         Welcome to Studyweb, <c:out value="${username}"/>
@@ -75,12 +81,14 @@
             answerObjects[i].style.backgroundColor = "#ee6e73"
         }
     }
-
-    $(document).ready(function () {
-        $('.collapsible').collapsible();
-    });
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="../../../js/materialize.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.collapsible').collapsible();
+        $(".button-collapse").sideNav();
+    });
+</script>
 </body>
 </html>
