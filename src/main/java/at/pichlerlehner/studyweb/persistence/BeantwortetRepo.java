@@ -160,6 +160,19 @@ public class BeantwortetRepo extends AbstractJdbcRepo<Beantwortet> {
     }
 
 
+
+    public List<Beantwortet> getBeantwortetByUser(Connection connection, Long userId) throws PersistenceException {
+        return getElementByLongColumn(connection, ba_user, userId);
+    }
+
+    public void deleteByUser(Connection connection, Long userId) throws PersistenceException {
+        List<Beantwortet> beantwortetList = getBeantwortetByUser(connection, userId);
+        for (Beantwortet beantwortet : beantwortetList) {
+            delete(connection, beantwortet);
+        }
+    }
+
+
     @Override
     protected String getTableName() {
         return table_name;

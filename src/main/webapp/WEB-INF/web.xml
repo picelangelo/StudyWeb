@@ -75,6 +75,10 @@
     <servlet-name>ChangePermission</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.ChangePermissionServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Statistics</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.StatisticServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -147,5 +151,9 @@
   <servlet-mapping>
     <servlet-name>ChangePermission</servlet-name>
     <url-pattern>/cp</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Statistics</servlet-name>
+    <url-pattern>/statistics</url-pattern>
   </servlet-mapping>
 </web-app>

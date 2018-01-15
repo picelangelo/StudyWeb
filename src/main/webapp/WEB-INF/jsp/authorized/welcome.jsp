@@ -76,7 +76,7 @@
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <p>Edit a Quiz.</p>
+                    <p>Edit your Quizzes</p>
                 </div>
                 <div class="card-action">
                     <a class="indigo-text" href="/chooseedit">edit</a>
@@ -91,10 +91,10 @@
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <p>Look at your statistics</p>
+                    <p>Take a look at your statistics</p>
                 </div>
                 <div class="card-action">
-                    <a class="indigo-text" href="#!">show</a>
+                    <a class="indigo-text" href="/statistics">show</a>
                 </div>
             </div>
         </div>

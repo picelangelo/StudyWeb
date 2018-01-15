@@ -4,6 +4,7 @@ import at.pichlerlehner.studyweb.domain.Model;
 import at.pichlerlehner.studyweb.foundation.Ensurer;
 import at.pichlerlehner.studyweb.persistence.AbstractJdbcRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
+import com.sun.java.browser.plugin2.DOM;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -98,6 +99,12 @@ abstract class AbstractService<DOMAIN extends Model<DOMAIN,Long>> {
             throw ServiceException.forPersistenceException(e);
         }
         return result;
+    }
+
+    public void deleteAll(List<DOMAIN> domainList) {
+        for (DOMAIN domain : domainList) {
+            deleteEntity(domain);
+        }
     }
 
     public Optional<DOMAIN> findEntityById(long id) {

@@ -36,6 +36,9 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
+    <h5>
+        Create a new Quiz
+    </h5>
     <br/>
     <form method="post" action="/new">
         <div class="input-field col s12">

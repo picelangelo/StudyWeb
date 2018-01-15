@@ -46,6 +46,10 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
+    <h5>
+        Edit: <c:out value="${fragebogen.bezeichnung}"/>
+    </h5>
+    <br/>
 
     <form method="post">
 
@@ -88,9 +92,8 @@
             <input type="checkbox" id="write" name="write" value="true"/>
             <label for="write">Grant write access</label>
         </p>
-
         <br/>
-        <button type="submit" name="changePers" class="col s12 btn btn-large waves-effect indigo">Save Changes</button>
+        <button type="submit" name="submit" value="changePers" class="col s12 btn btn-large waves-effect indigo">Save Changes</button>
 
 
     </form>

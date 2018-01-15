@@ -24,7 +24,7 @@
                 <a class="brand-logo" href="welcome">Studyweb</a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="profile">Profile</a></li>
+                    <li class="active"><a href="profile" >Profile</a></li>
                     <li><a href="logout">Logout</a></li>
                 </ul>
             </div>

@@ -44,8 +44,10 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
-
-
+    <h5>
+        All quizzes you are admin of
+    </h5>
+    <br/>
     <div class="collection">
         <a class="collection-item" href="#!" style="border-bottom: thin solid gray">
             <b>Title</b>
