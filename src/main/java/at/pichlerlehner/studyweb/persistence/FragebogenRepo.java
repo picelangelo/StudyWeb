@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
 
@@ -137,6 +138,16 @@ public class FragebogenRepo extends AbstractJdbcRepo<Fragebogen> {
     public List<Fragebogen> getByUserAccess(Connection con, Long benutzerId) throws PersistenceException {
         BerechtigungRepo berechtigungRepo = new BerechtigungRepo();
         List<Berechtigung> berechtigungList = berechtigungRepo.getBerechtigungByUser(con, benutzerId);
+        List<Fragebogen> fragebogenList = new ArrayList<>();
+        for (Berechtigung berechtigung : berechtigungList) {
+            fragebogenList.add(berechtigung.getFragebogen());
+        }
+        return fragebogenList;
+    }
+
+    public List<Fragebogen> getByUserWriteAccess(Connection con, Long benutzerId) throws PersistenceException {
+        BerechtigungRepo berechtigungRepo = new BerechtigungRepo();
+        List<Berechtigung> berechtigungList = berechtigungRepo.getBerechtigungByUser(con, benutzerId).stream().filter(Berechtigung::isDarfBearbeiten).collect(Collectors.toList());
         List<Fragebogen> fragebogenList = new ArrayList<>();
         for (Berechtigung berechtigung : berechtigungList) {
             fragebogenList.add(berechtigung.getFragebogen());
