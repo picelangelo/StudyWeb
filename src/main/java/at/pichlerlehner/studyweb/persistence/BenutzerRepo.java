@@ -166,7 +166,7 @@ public class BenutzerRepo extends AbstractJdbcRepo<Benutzer> {
     }
 
     public Optional<Benutzer> findUserByEmail(Connection con, String email) throws PersistenceException{
-        String query = String.format("SELECT * from %s WHERE %s = ? AND %s = ?", getTableName(), b_email);
+        String query = String.format("SELECT * from %s WHERE %s = ?", getTableName(), b_email);
         PreparedStatement preparedStatement;
         try {
             preparedStatement = con.prepareStatement(query);

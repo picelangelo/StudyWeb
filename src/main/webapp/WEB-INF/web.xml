@@ -63,6 +63,18 @@
     <servlet-name>Password</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.PasswordServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ChooseEdit</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ChooseEditServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Permission</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.PermissionServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ChangePermission</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.ChangePermissionServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -123,5 +135,17 @@
   <servlet-mapping>
     <servlet-name>Password</servlet-name>
     <url-pattern>/password</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChooseEdit</servlet-name>
+    <url-pattern>/chooseedit</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Permission</servlet-name>
+    <url-pattern>/permissions</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ChangePermission</servlet-name>
+    <url-pattern>/cp</url-pattern>
   </servlet-mapping>
 </web-app>

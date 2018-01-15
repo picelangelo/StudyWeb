@@ -28,8 +28,14 @@ public class BenutzerService extends AbstractService<Benutzer> {
         return user;
     }
 
-    public List<Benutzer> findByEmail() {
-        return null;
+    public Optional<Benutzer> findByEmail(String email) {
+        try {
+            return ((BenutzerRepo)repository).findUserByEmail(connection, email);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+            logger.error("An error occurred while finding user");
+            throw ServiceException.forPersistenceException(e);
+        }
     }
 
 

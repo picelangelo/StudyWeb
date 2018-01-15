@@ -42,14 +42,14 @@
     <div class="col s12 m7">
         <div class="card horizontal">
             <div class="card-image">
-                <img src="https://i.imgur.com/7Y3Xkgf.png">
+                <img src="https://i.imgur.com/2rCQvJ1.png">
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <p>List all quizzes you have access to.</p>
+                    <p>Edit Permissions</p>
                 </div>
                 <div class="card-action">
-                    <a class="indigo-text" href="/show">show</a>
+                    <a class="indigo-text" href="/permissions">edit</a>
                 </div>
             </div>
         </div>
@@ -61,55 +61,10 @@
             </div>
             <div class="card-stacked">
                 <div class="card-content">
-                    <p>Create a new Quiz!</p>
+                    <p>Edit a quiz</p>
                 </div>
                 <div class="card-action">
-                    <a class="indigo-text" href="/new">create</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s12 m7">
-        <div class="card horizontal">
-            <div class="card-image">
-                <img src="https://i.imgur.com/OnGno8d.png">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <p>Edit a Quiz.</p>
-                </div>
-                <div class="card-action">
-                    <a class="indigo-text" href="/chooseedit">edit</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s12 m7">
-        <div class="card horizontal">
-            <div class="card-image">
-                <img src="https://www.hindawi.com/journals/cin/2010/floats/426539/thumbnails/426539.fig.002a_th.jpg">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <p>Look at your statistics</p>
-                </div>
-                <div class="card-action">
-                    <a class="indigo-text" href="#!">show</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s12 m7">
-        <div class="card horizontal">
-            <div class="card-image">
-                <img src="https://i.imgur.com/8mIuYq9.png">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <p>Take a break!</p>
-                </div>
-                <div class="card-action">
-                    <a class="indigo-text" href="/break">procrastinate</a>
+                    <a class="indigo-text" href="/#!">edit</a>
                 </div>
             </div>
         </div>

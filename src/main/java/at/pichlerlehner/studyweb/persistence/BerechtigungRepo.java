@@ -10,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
     //Namen
@@ -163,6 +164,18 @@ public class BerechtigungRepo extends AbstractJdbcRepo<Berechtigung> {
 
     public List<Berechtigung> getBerechtigungByUser(Connection con, Long userId) throws PersistenceException{
         return getElementByLongColumn(con, b_user, userId);
+    }
+
+    public List<Benutzer> getFrageboegenByBenutzer(Connection con, Long quizId) throws PersistenceException {
+        List<Benutzer> benutzerList = new ArrayList<>();
+        getElementByLongColumn(con, b_fragebogen, quizId).forEach(x -> benutzerList.add(x.getBenutzer()));
+        return benutzerList;
+    }
+
+    public List<Berechtigung> getByFrageboegenAndBenutzer(Connection con, Long quizId, Long userId) throws PersistenceException {
+        List<Berechtigung> berechtigungList;
+        berechtigungList = getElementByLongColumn(con, b_fragebogen, quizId).stream().filter(x -> x.getBenutzer().getPrimaryKey().equals(userId)).collect(Collectors.toList());
+        return berechtigungList;
     }
 
 }
