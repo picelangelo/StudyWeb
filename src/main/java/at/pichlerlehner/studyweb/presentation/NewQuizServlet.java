@@ -10,12 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Project: StudyWeb
- * Document: NewQuizServlet.java
- * Author: Philip
- * Created: 29.11.2017
- */
 public class NewQuizServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

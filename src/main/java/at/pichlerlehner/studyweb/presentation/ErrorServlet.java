@@ -6,12 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Project: StudyWeb
- * Document: ErrorServlet.java
- * Author: Philip
- * Created: 09.01.2018
- */
 public class ErrorServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

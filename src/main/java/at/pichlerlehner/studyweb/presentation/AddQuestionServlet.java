@@ -16,12 +16,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.*;
 
-/**
- * Project: StudyWeb
- * Document: AddQuestionServlet.java
- * Author: Philip
- * Created: 13.12.2017
- */
 public class AddQuestionServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

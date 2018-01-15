@@ -16,12 +16,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * Project: StudyWeb
- * Document: ChooseEditServlet.java
- * Author: Philip
- * Created: 14.01.2018
- */
 public class ChangePermissionServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

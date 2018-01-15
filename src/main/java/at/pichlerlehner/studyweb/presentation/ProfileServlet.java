@@ -11,12 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-/**
- * Project: StudyWeb
- * Document: ProfileServlet.java
- * Author: Philip
- * Created: 14.01.2018
- */
 public class ProfileServlet extends BaseServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
