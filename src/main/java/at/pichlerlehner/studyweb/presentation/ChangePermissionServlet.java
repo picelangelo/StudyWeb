@@ -26,9 +26,16 @@ public class ChangePermissionServlet extends BaseServlet {
             Benutzer benutzer = (Benutzer) session.getAttribute("USER");
             BerechtigungService berechtigungService = new BerechtigungService();
             FragebogenService fragebogenService = new FragebogenService();
-            Optional<Fragebogen> optFragebogen = fragebogenService.findEntityById(Long.parseLong(request.getParameter("quiz")));
+            Optional<Fragebogen> optFragebogen;
+            try {
+                optFragebogen = fragebogenService.findEntityById(Long.parseLong(request.getParameter("quiz")));
+            } catch (Exception e) {
+                session.setAttribute("ERROR", "quiz not found");
+                response.sendRedirect("/error");
+                return;
+            }
             if (!optFragebogen.isPresent()) {
-                session.setAttribute("ERROR", "Quiz not found");
+                session.setAttribute("ERROR", "quiz not found");
                 response.sendRedirect("/error");
                 return;
             }
@@ -58,8 +65,10 @@ public class ChangePermissionServlet extends BaseServlet {
             BenutzerService benutzerService = new BenutzerService();
             BerechtigungService berechtigungService = new BerechtigungService();
             Benutzer benutzer = (Benutzer) session.getAttribute("USER");
-            Optional<Fragebogen> optFragebogen = fragebogenService.findEntityById(Long.parseLong(request.getParameter("quiz")));
-            if (!optFragebogen.isPresent()) {
+            Optional<Fragebogen> optFragebogen;
+            try {
+                optFragebogen = fragebogenService.findEntityById(Long.parseLong(request.getParameter("quiz")));
+            } catch (Exception e) {
                 session.setAttribute("ERROR", "Quiz not found");
                 response.sendRedirect("/error");
                 return;

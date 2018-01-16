@@ -1,9 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
+<%@ page import="at.pichlerlehner.studyweb.service.FragebogenService" %>
+<%@ page import="at.pichlerlehner.studyweb.domain.Fragebogen" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Benutzer benutzer = (Benutzer) request.getSession().getAttribute("USER");
     request.setAttribute("username", benutzer.getVorname());
+    FragebogenService fragebogenService = new FragebogenService();
+    List<Fragebogen> fragebogenArrayList = fragebogenService.findQuizByUserWriteAccess(benutzer);
+    request.setAttribute("frageboegen", fragebogenArrayList);
 %>
 
 <html>
@@ -38,36 +44,26 @@
     <h4 class="indigo-text">
         Welcome to Studyweb, <c:out value="${username}"/>
     </h4>
-
-    <div class="col s12 m7">
-        <div class="card horizontal">
-            <div class="card-image">
-                <img src="https://i.imgur.com/OnGno8d.png">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <p>Edit Permissions</p>
-                </div>
-                <div class="card-action">
-                    <a class="indigo-text" href="/permissions">edit</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s12 m7">
-        <div class="card horizontal">
-            <div class="card-image">
-                <img src="https://i.imgur.com/OnGno8d.png">
-            </div>
-            <div class="card-stacked">
-                <div class="card-content">
-                    <p>Edit a quiz</p>
-                </div>
-                <div class="card-action">
-                    <a class="indigo-text" href="/editquizchoice">edit</a>
-                </div>
-            </div>
-        </div>
+    <h5>
+        All Quizzes you have write-access to
+    </h5>
+    <br/>
+    <div class="collection">
+        <a class="collection-item" href="#!" style="border-bottom: thin solid gray">
+            <span class="badge"><b>Creator</b></span>
+            <b>Title</b>
+        </a>
+        <c:if test="${frageboegen.size() == 0}">
+            <a href="#!" class="collection-item">
+                No quizzes yet!
+            </a>
+        </c:if>
+        <c:forEach items="${frageboegen}" var="fragebogen">
+            <a href="edit?quiz=${fragebogen.primaryKey}" class="collection-item">
+                <span class="badge"><c:out value="${fragebogen.ersteller.vorname} ${fragebogen.ersteller.nachname}"/></span>
+                <c:out value="${fragebogen.bezeichnung}"/>
+            </a>
+        </c:forEach>
     </div>
 
 </div>

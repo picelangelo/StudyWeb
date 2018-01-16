@@ -35,7 +35,12 @@ public class RegisterServlet extends BaseServlet {
         String password = request.getParameter("password");
         String password2 = request.getParameter("password2");
 
-        if(password.equals(password2)){
+        BenutzerService benutzerService = new BenutzerService();
+        Optional<Benutzer> dBbenutzer = benutzerService.findByEmail(email);
+        if (dBbenutzer.isPresent()) {
+            response.sendError(403, "user already exists");
+            return;
+        } else if(password.equals(password2)){
             String hashpwd = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
             Benutzer benutzer = new Benutzer();
             benutzer.setVorname(firstname);
@@ -43,7 +48,6 @@ public class RegisterServlet extends BaseServlet {
             benutzer.setEmail(email);
             benutzer.setPassword(hashpwd);
 
-            BenutzerService benutzerService = new BenutzerService();
             benutzerService.createEntity(benutzer);
 
             Optional<Benutzer> authBenutzer = benutzerService.authorize(email, hashpwd);
@@ -56,7 +60,7 @@ public class RegisterServlet extends BaseServlet {
                 response.sendRedirect("/register");
             }
 
-        }else{
+        } else{
             response.sendRedirect("/login");
         }
     }

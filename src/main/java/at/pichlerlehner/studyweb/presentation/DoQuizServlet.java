@@ -30,7 +30,14 @@ public class DoQuizServlet extends BaseServlet {
                 FragebogenService fragebogenService = new FragebogenService();
                 FrageService frageService = new FrageService();
                 AntwortService antwortService = new AntwortService();
-                Long quizPK = Long.parseLong(request.getParameter("quiz"));
+                Long quizPK;
+                try {
+                    quizPK = Long.parseLong(request.getParameter("quiz"));
+                } catch (Exception e) {
+                    session.setAttribute("ERROR", "Quiz not found");
+                    response.sendRedirect("/error");
+                    return;
+                }
                 Fragebogen fragebogen;
                 if (fragebogenService.findEntityById(quizPK).isPresent()) {
                     fragebogen = fragebogenService.findEntityById(quizPK).get();

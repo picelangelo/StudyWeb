@@ -79,6 +79,14 @@
     <servlet-name>Statistics</servlet-name>
     <servlet-class>at.pichlerlehner.studyweb.presentation.StatisticServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EditQuizChoice</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.EditQuizChoiceServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditQuiz</servlet-name>
+    <servlet-class>at.pichlerlehner.studyweb.presentation.EditQuizServlet</servlet-class>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>Login</servlet-name>
@@ -155,5 +163,13 @@
   <servlet-mapping>
     <servlet-name>Statistics</servlet-name>
     <url-pattern>/statistics</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditQuizChoice</servlet-name>
+    <url-pattern>/editquizchoice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditQuiz</servlet-name>
+    <url-pattern>/edit</url-pattern>
   </servlet-mapping>
 </web-app>
