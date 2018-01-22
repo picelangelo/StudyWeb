@@ -1,16 +1,12 @@
 package at.pichlerlehner.studyweb.persistence;
 
 import at.pichlerlehner.studyweb.domain.Model;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.sun.java.browser.plugin2.DOM;
-import com.sun.org.apache.regexp.internal.RE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.sql.*;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> implements JdbcRepository<DOMAIN, Long>{
 
@@ -43,7 +39,7 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     @Override
     public List<DOMAIN> findAll(Connection con) throws PersistenceException {
         String query = String.format("SELECT * FROM %s", getTableName());
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         List<DOMAIN> result;
         try {
             preparedStatement = con.prepareStatement(query);
@@ -59,7 +55,7 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
     public Optional<DOMAIN> findById(Connection con, java.lang.Long id) throws PersistenceException {
         String query = String.format("SELECT * FROM %s WHERE %s=?", getTableName(), getPrimaryKeyColumnName());
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         List<DOMAIN> result;
         try {
             preparedStatement = con.prepareStatement(query);
@@ -85,7 +81,7 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
     }
 
     public int delete(Connection con, Long id) throws PersistenceException {
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         try {
 
             String deleteByIdSQL = String.format("DELETE FROM %s WHERE %s = ?",
@@ -112,7 +108,7 @@ public abstract class AbstractJdbcRepo<DOMAIN extends Model<DOMAIN, Long>> imple
 
     public long getVersion(Connection con, Long id) throws PersistenceException {
         String query = String.format("SELECT %s FROM %s where %s = ?", vers, getTableName(), getPrimaryKeyColumnName());
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         try {
             preparedStatement = con.prepareStatement(query);
             if (id == null) {
