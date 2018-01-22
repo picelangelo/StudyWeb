@@ -5,8 +5,6 @@ import at.pichlerlehner.studyweb.foundation.Ensurer;
 import at.pichlerlehner.studyweb.persistence.BenutzerRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 
-import java.sql.Connection;
-import java.util.List;
 import java.util.Optional;
 
 public class BenutzerService extends AbstractService<Benutzer> {

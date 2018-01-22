@@ -3,7 +3,6 @@ package at.pichlerlehner.studyweb.presentation;
 import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.service.BenutzerService;
 import com.google.common.hash.Hashing;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

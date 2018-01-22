@@ -6,7 +6,6 @@ import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.persistence.FragebogenRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

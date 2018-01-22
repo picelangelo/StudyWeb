@@ -2,8 +2,6 @@ package at.pichlerlehner.studyweb.domain;
 
 import at.pichlerlehner.studyweb.foundation.Ensurer;
 
-import java.util.List;
-
 public class Benutzer extends Model<Benutzer, Long> {
     private String email;
     private String password;

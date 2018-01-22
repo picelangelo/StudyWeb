@@ -2,8 +2,6 @@ package at.pichlerlehner.studyweb.service;
 
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 
-import java.sql.SQLException;
-
 public class ServiceException extends RuntimeException {
     public ServiceException(String s) {
         super(s);

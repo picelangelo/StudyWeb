@@ -4,7 +4,6 @@ import at.pichlerlehner.studyweb.domain.Antwort;
 import at.pichlerlehner.studyweb.domain.Frage;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.persistence.AntwortRepo;
-import at.pichlerlehner.studyweb.persistence.FrageRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 
 import java.util.List;

@@ -3,7 +3,6 @@ package at.pichlerlehner.studyweb.service;
 import at.pichlerlehner.studyweb.domain.Beantwortet;
 import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.domain.Frage;
-import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.persistence.BeantwortetRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
 

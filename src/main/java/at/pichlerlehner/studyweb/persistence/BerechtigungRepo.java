@@ -3,8 +3,6 @@ package at.pichlerlehner.studyweb.persistence;
 import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.domain.Berechtigung;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
-import com.sun.jndi.ldap.Ber;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -1,15 +1,10 @@
 package at.pichlerlehner.studyweb.presentation;
 
-import at.pichlerlehner.studyweb.domain.Fragebogen;
-import at.pichlerlehner.studyweb.service.FragebogenService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ShowQuizServlet extends BaseServlet {

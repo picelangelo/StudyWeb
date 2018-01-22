@@ -1,8 +1,11 @@
 package at.pichlerlehner.studyweb.presentation;
 
-import at.pichlerlehner.studyweb.domain.*;
-import at.pichlerlehner.studyweb.foundation.Ensurer;
-import at.pichlerlehner.studyweb.service.*;
+import at.pichlerlehner.studyweb.domain.Benutzer;
+import at.pichlerlehner.studyweb.domain.Berechtigung;
+import at.pichlerlehner.studyweb.domain.Fragebogen;
+import at.pichlerlehner.studyweb.service.BenutzerService;
+import at.pichlerlehner.studyweb.service.BerechtigungService;
+import at.pichlerlehner.studyweb.service.FragebogenService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ChangePermissionServlet extends BaseServlet {
     @Override

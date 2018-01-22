@@ -1,12 +1,13 @@
 package at.pichlerlehner.studyweb.presentation;
 
-import at.pichlerlehner.studyweb.domain.*;
-import at.pichlerlehner.studyweb.persistence.FrageRepo;
+import at.pichlerlehner.studyweb.domain.Antwort;
+import at.pichlerlehner.studyweb.domain.Benutzer;
+import at.pichlerlehner.studyweb.domain.Frage;
+import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.service.AntwortService;
 import at.pichlerlehner.studyweb.service.BeantwortetService;
 import at.pichlerlehner.studyweb.service.FrageService;
 import at.pichlerlehner.studyweb.service.FragebogenService;
-import org.opendof.core.oal.DOFRequest;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DoQuizServlet extends BaseServlet {

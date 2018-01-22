@@ -2,8 +2,6 @@ package at.pichlerlehner.studyweb.domain;
 
 import at.pichlerlehner.studyweb.foundation.Ensurer;
 
-import java.util.List;
-
 
 public class Fragebogen extends Model<Fragebogen, Long> {
     private Benutzer ersteller;

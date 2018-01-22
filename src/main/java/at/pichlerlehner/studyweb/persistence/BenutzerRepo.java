@@ -1,8 +1,6 @@
 package at.pichlerlehner.studyweb.persistence;
 
 import at.pichlerlehner.studyweb.domain.Benutzer;
-import at.pichlerlehner.studyweb.domain.Berechtigung;
-import at.pichlerlehner.studyweb.domain.Frage;
 
 import java.sql.*;
 import java.util.ArrayList;

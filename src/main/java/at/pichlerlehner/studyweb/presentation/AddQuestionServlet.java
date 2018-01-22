@@ -6,7 +6,6 @@ import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.service.AntwortService;
 import at.pichlerlehner.studyweb.service.FrageService;
 import at.pichlerlehner.studyweb.service.FragebogenService;
-import com.google.common.collect.Lists;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,7 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 public class AddQuestionServlet extends BaseServlet {
     @Override

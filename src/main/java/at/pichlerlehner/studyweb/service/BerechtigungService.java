@@ -4,9 +4,7 @@ import at.pichlerlehner.studyweb.domain.Benutzer;
 import at.pichlerlehner.studyweb.domain.Berechtigung;
 import at.pichlerlehner.studyweb.domain.Fragebogen;
 import at.pichlerlehner.studyweb.persistence.BerechtigungRepo;
-import at.pichlerlehner.studyweb.persistence.FragebogenRepo;
 import at.pichlerlehner.studyweb.persistence.PersistenceException;
-import com.sun.jndi.ldap.Ber;
 
 import java.util.List;
 
