@@ -1,7 +1,6 @@
 <%@ page import="at.pichlerlehner.studyweb.domain.Benutzer" %>
 <%@ page import="at.pichlerlehner.studyweb.service.FragebogenService" %>
 <%@ page import="at.pichlerlehner.studyweb.domain.Fragebogen" %>
-<%@ page import="at.pichlerlehner.studyweb.domain.Rechte" %>
 <%@ page import="java.util.LinkedHashMap" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.List" %>
