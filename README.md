@@ -1,23 +1,8 @@
 # README #
 
-### What is this repository for? ###
-Unsere Webapplikation ist eine Lernhilfe für diverse Tests und Schularbeiten.
-Ein Benutzer hat die Möglichkeit einen Fragebogen zu erstellen, in welche er Fragen sowie deren
-Antworten zu einem beliebigen Stoffgebiet eintragen kann. Bei den Antworten hat er die Wahl
-zwischen Multiple-Choice sowie Textfeldern, welche jedoch eine genaue Musterantwort verlangen.
-Der Ersteller des Fragebogens hat außerdem die Möglichkeit, seinen Fragebogen mit seinen
-Mitschülern zu teilen, sodass diese ebenso die Möglichkeit haben, aus diesem zu lernen. Er kann
-ihnen außerdem die Berechtigung erteilen, seinen Fragebogen zu bearbeiten.
-Jeder Benutzer hat die Möglichkeit, seinen Lernfortschritt anzusehen, und sieht außerdem, ob es
-Sinn macht, zur Prüfung anzutreten oder doch noch lernen sollte.
-Das Projekt orientiert sich an Lernplattformen zur Führerscheinprüfung (z.B. ctonline.at).
+### StudyWeb ###
+Our web application is a learning aid for various tests and exams.
+The user has the possibility to create a questionnaire, in which he can ask questions about any topic. He has the choice between single-choice-questions and questions which require an exact answer. 
+The creator of the questionnaire also has the option of sharing it with other users, so his classmates also have the opportunity to learn from it. He can also give them authorization to edit his questionnaire.
+Every user has the option of reviewing his learning progress.
 
-### How do I get set up? ###
-
-* Tomcat
-* Deploy Warfile
-
-### Who do I talk to? ###
-
-* Philip Pichler
-* Christopher Lehner
