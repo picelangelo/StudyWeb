@@ -9,4 +9,4 @@ Every user has the option of reviewing his learning progress.
 ### Licence ###
 This project is under the [GNU Affero General Public License](https://www.gnu.org/licenses/agpl-3.0.en.html). 
 
-This project is archived and not longer maintained.
+## This project is archived and not longer maintained. ##
